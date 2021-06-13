@@ -1,6 +1,6 @@
 {
-  "name": "@lamnhan/unistylus-tools",
-  "version": "0.0.4",
+  "name": "@unistylus/cli",
+  "version": "0.0.1",
   "description": "Tools for the Unistylus framework.",
   "author": "Lam Nhan",
   "homepage": "https://unistylus.lamnhan.com",
@@ -35,10 +35,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lamnhan/unistylus-tools.git"
+    "url": "https://github.com/unistylus/cli.git"
   },
   "bugs": {
-    "url": "https://github.com/lamnhan/unistylus-tools/issues"
+    "url": "https://github.com/unistylus/cli/issues"
   },
   "dependencies": {
     "axios": "^0.21.1",

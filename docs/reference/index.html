@@ -1,0 +1,289 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@unistylus/cli</title>
+	<meta name="description" content="Documentation for @unistylus/cli">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@unistylus/cli</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@unistylus/cli</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<section id="head" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+					<a href="#lamnhanunistylus-tools" id="lamnhanunistylus-tools" style="color: inherit; text-decoration: none;">
+						<h1>@lamnhan/unistylus-tools</h1>
+					</a>
+					<p><strong>Tools for the Unistylus framework.</strong></p>
+				</section>
+				<section id="tocx" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+					<ul>
+						<li><a href="#getting-started">Getting started</a></li>
+						<li><a href="#cli-command-overview">Command overview</a></li>
+						<li><a href="#cli-command-reference">Command reference</a><ul>
+								<li><a href="#command-clean"><code>clean</code></a></li>
+								<li><a href="#command-copy"><code>copy</code></a></li>
+								<li><a href="#command-generate"><code>generate</code></a></li>
+								<li><a href="#command-init"><code>init</code></a></li>
+								<li><a href="#command-help"><code>help</code></a></li>
+								<li><a href="#command-*"><code>*</code></a></li>
+							</ul>
+						</li>
+						<li><a href="https://example.com">Detail API reference</a></li>
+					</ul>
+				</section>
+				<section id="getting-stated">
+					<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+						<h2>Getting started</h2>
+					</a>
+					<ul>
+						<li>Install &amp; init</li>
+					</ul>
+					<pre><code class="language-sh">npx @unistylus/cli init</code></pre>
+					<ul>
+						<li>Install globally:</li>
+					</ul>
+					<pre><code class="language-sh">npm install -g @unistylus/cli</code></pre>
+					<p>Add to a project:</p>
+					<pre><code class="language-sh">unistylus init</code></pre>
+					<p>Add your own soul <code>src/</code>, edit the <code>.unistylusrc.json</code>.</p>
+					<p>Generate distribution:</p>
+					<pre><code class="language-sh">unistylus generate</code></pre>
+					<p>Next, see the homepage: <a href="https://unistylus.lamnhan.com">https://unistylus.lamnhan.com</a></p>
+				</section>
+				<section id="cli" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+					<h2><a name="cli-command-overview"><p>Command overview</p>
+					</a></h2>
+					<p>Tools for the Unistylus framework.</p>
+					<ul>
+						<li><a href="#command-clean"><code>unistylus clean|del|d &lt;path&gt;</code></a></li>
+						<li><a href="#command-copy"><code>unistylus copy|c [items...] --src [value] --out [value] --clean</code></a></li>
+						<li><a href="#command-generate"><code>unistylus generate|g [path] --api</code></a></li>
+						<li><a href="#command-init"><code>unistylus init|i [path]</code></a></li>
+						<li><a href="#command-help"><code>unistylus help</code></a></li>
+						<li><a href="#command-*"><code>unistylus *</code></a></li>
+					</ul>
+					<h2><a name="cli-command-reference"><p>Command reference</p>
+					</a></h2>
+					<h3><a name="command-clean"><p><code>clean</code></p>
+					</a></h3>
+					<p>Clean a folder.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus clean &lt;path&gt;
+unistylus del &lt;path&gt;
+unistylus d &lt;path&gt;</code></pre>
+					<p><strong>Parameters:</strong></p>
+					<ul>
+						<li><code>&lt;path&gt;</code>: The <code>&lt;path&gt;</code> parameter.</li>
+					</ul>
+					<h3><a name="command-copy"><p><code>copy</code></p>
+					</a></h3>
+					<p>Copy resources</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus copy [items...] --src [value] --out [value] --clean
+unistylus c [items...] --src [value] --out [value] --clean</code></pre>
+					<p><strong>Parameters:</strong></p>
+					<ul>
+						<li><code>[items...]</code>: List of items</li>
+					</ul>
+					<p><strong>Options:</strong></p>
+					<ul>
+						<li><code>-s, --src [value]</code>: Source of items.</li>
+						<li><code>-o, --out [value]</code>: Copy destination.</li>
+						<li><code>-c, --clean</code>: Clean the output first.</li>
+					</ul>
+					<h3><a name="command-generate"><p><code>generate</code></p>
+					</a></h3>
+					<p>Generate content.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus generate [path] --api
+unistylus g [path] --api</code></pre>
+					<p><strong>Parameters:</strong></p>
+					<ul>
+						<li><code>[path]</code>: Custom path to the project</li>
+					</ul>
+					<p><strong>Options:</strong></p>
+					<ul>
+						<li><code>-a, --api</code>: Output the API.</li>
+					</ul>
+					<h3><a name="command-init"><p><code>init</code></p>
+					</a></h3>
+					<p>Add Unistylus tools to a project.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus init [path]
+unistylus i [path]</code></pre>
+					<p><strong>Parameters:</strong></p>
+					<ul>
+						<li><code>[path]</code>: Custom path to the project</li>
+					</ul>
+					<h3><a name="command-help"><p><code>help</code></p>
+					</a></h3>
+					<p>Display help.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus <span class="hljs-built_in">help</span></code></pre>
+					<h3><a name="command-*"><p><code>*</code></p>
+					</a></h3>
+					<p>Any other command is not suppoted.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus &lt;cmd&gt;</code></pre>
+				</section>
+				<section id="license" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+						<h2>License</h2>
+					</a>
+					<p><strong>@lamnhan/unistylus-tools</strong> is released under the <a href="https://github.com/lamnhan/unistylus-tools/blob/master/LICENSE">MIT</a> license.</p>
+				</section>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/cleancommand.html" class="tsd-kind-icon">Clean<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cli.html" class="tsd-kind-icon">Cli</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/copycommand.html" class="tsd-kind-icon">Copy<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/downloadservice.html" class="tsd-kind-icon">Download<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/fileservice.html" class="tsd-kind-icon">File<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/generatecommand.html" class="tsd-kind-icon">Generate<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/initcommand.html" class="tsd-kind-icon">Init<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/lib.html" class="tsd-kind-icon">Lib</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messageservice.html" class="tsd-kind-icon">Message<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/projectservice.html" class="tsd-kind-icon">Project<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dotunistylusrcdotjson.html" class="tsd-kind-icon">Dot<wbr>UnistylusRCDot<wbr>Json</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generateoptions.html" class="tsd-kind-icon">Generate<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/soulgeneratingvariables.html" class="tsd-kind-icon">Soul<wbr>Generating<wbr>Variables</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#commanddef" class="tsd-kind-icon">Command<wbr>Def</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#any" class="tsd-kind-icon">ANY</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#error" class="tsd-kind-icon">ERROR</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#info" class="tsd-kind-icon">INFO</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#ok" class="tsd-kind-icon">OK</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#warn" class="tsd-kind-icon">WARN</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#cliapp" class="tsd-kind-icon">cli<wbr>App</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'https://example.com',
+  url: 'https://unistylus-cli.lamnhan.com',
   fileRender: {
     'README.md': 'clix'
   }
