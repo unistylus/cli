@@ -22,6 +22,7 @@ export interface SoulGeneratingVariables
   palette_variants?: string[];
   palettes_and_palette_variants?: never[];
   directions_and_size_steps?: never[];
+  palettes_and_size_steps?: never[];
   palettes_and_size_variants?: never[];
 }
 
@@ -48,6 +49,7 @@ export class ProjectService {
     palette_variants: ['contrast', 'shade', 'tint'],
     palettes_and_palette_variants: [],
     directions_and_size_steps: [],
+    palettes_and_size_steps: [],
     palettes_and_size_variants: [],
   };
 
