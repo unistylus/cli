@@ -26,6 +26,12 @@ export interface SoulGeneratingVariables
   palettes_and_size_variants?: never[];
 }
 
+export interface ProcessPartsByGroupResult {
+  exportPath: string;
+  scssPath: string;
+  scssContent: string;
+}
+
 export class ProjectService {
   public readonly rcFile = '.unistylusrc.json';
   public readonly defaultVariables: SoulGeneratingVariables = {

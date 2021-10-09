@@ -13,3 +13,4 @@ export * from './lib/services/file.service';
 export * from './lib/services/download.service';
 export * from './lib/services/project.service';
 export * from './lib/services/build.service';
+export * from './lib/services/web.service';
