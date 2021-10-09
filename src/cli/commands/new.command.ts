@@ -56,8 +56,6 @@ export class NewCommand {
   async modify(projectPath: string, name: string, description: string) {
     // content
     await this.modifyContent(projectPath, name, description);
-    // source code
-    // TODO: ...
   }
 
   async modifyContent(projectPath: string, name: string, description: string) {
