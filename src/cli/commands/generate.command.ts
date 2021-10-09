@@ -147,7 +147,7 @@ export class GenerateCommand {
       const names = await this.fileService.listDir(contentPath);
       await Promise.all(
         names.map(name => {
-          // a file (copy)
+          // I - a file (copy)
           if (name.indexOf('.scss') !== -1) {
             exportList.push(`${partGroup}/${name.replace('.scss', '')}`);
             return this.fileService.copy(
@@ -155,13 +155,13 @@ export class GenerateCommand {
               resolve(contentOutPath, name)
             );
           }
-          // a folder
+          // II - a folder
           else {
             return (async () => {
               const childNames = await this.fileService.listDir(
                 contentPath + '/' + name
               );
-              // single definition
+              // II.1 - single definition
               if (childNames.length === 1 && childNames[0] === `${name}.scss`) {
                 // save main
                 const baseContent = await this.fileService.readText(
@@ -173,24 +173,31 @@ export class GenerateCommand {
                 );
                 exportList.push(`${partGroup}/${name}`);
               }
-              // with variations
+              // II.2 - with variations
               else {
                 const variantIncludes = [] as string[];
-                // default.scss
+                // II.2.A - default.scss
                 if (childNames.indexOf('default.scss') !== -1) {
                   const defaultContent = await this.fileService.readText(
                     resolve(contentPath, name, 'default.scss')
                   );
-                  await this.fileService.createFile(
-                    resolve(contentOutPath, `${name}-default.scss`),
-                    defaultContent.replace(
-                      '[default]',
-                      `.${name}, .${name}-default`
-                    )
+                  const finalDefaultContent = defaultContent.replace(
+                    '[default]',
+                    `.${name}, .${name}-default`
                   );
+                  await Promise.all([
+                    this.fileService.createFile(
+                      resolve(contentOutPath, `${name}.scss`),
+                      finalDefaultContent
+                    ),
+                    this.fileService.createFile(
+                      resolve(contentOutPath, `${name}-default.scss`),
+                      finalDefaultContent
+                    ),
+                  ]);
                   variantIncludes.push(`${name}-default`);
                 }
-                // other variants
+                // II.2.B - other variants
                 await Promise.all(
                   Object.keys(variables).map(variableKey =>
                     (async () => {
@@ -357,14 +364,14 @@ export class GenerateCommand {
                     })()
                   )
                 );
-                // save main
+                // II.2.C - save main
                 await this.fileService.createFile(
-                  resolve(contentOutPath, `${name}.scss`),
+                  resolve(contentOutPath, `${name}-all.scss`),
                   variantIncludes
                     .map(variant => `@import './${variant}';`)
                     .join('\n')
                 );
-                exportList.push(`${partGroup}/${name}`);
+                exportList.push(`${partGroup}/${name}-all`);
                 exportList.push(variantIncludes);
               }
             })();
