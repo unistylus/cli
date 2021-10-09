@@ -5,6 +5,8 @@ import {NewCommand} from './commands/new.command';
 import {GenerateCommand} from './commands/generate.command';
 import {CleanCommand} from './commands/clean.command';
 import {CopyCommand} from './commands/copy.command';
+import {ServeCommand} from './commands/serve.command';
+import {BuildCommand} from './commands/build.command';
 
 export class Cli {
   private unistylusModule: UnistylusModule;
@@ -12,6 +14,8 @@ export class Cli {
   generateCommand: GenerateCommand;
   cleanCommand: CleanCommand;
   copyCommand: CopyCommand;
+  serveCommand: ServeCommand;
+  buildCommand: BuildCommand;
 
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
@@ -52,6 +56,20 @@ export class Cli {
     ['-c, --clean', 'Clean the output first.'],
   ];
 
+  serveCommandDef: CommandDef = [
+    ['serve', 's'],
+    'Serve the soul for development.',
+    ['-s, --src [value]', 'Custom src directory.'],
+    ['-o, --out [value]', 'Custom output folder.'],
+  ];
+
+  buildCommandDef: CommandDef = [
+    ['build', 'b'],
+    'Build web.',
+    ['-s, --src [value]', 'Custom src directory.'],
+    ['-o, --out [value]', 'Custom output folder.'],
+  ];
+
   constructor() {
     this.unistylusModule = new UnistylusModule();
     this.newCommand = new NewCommand(
@@ -65,6 +83,11 @@ export class Cli {
     );
     this.cleanCommand = new CleanCommand(this.unistylusModule.fileService);
     this.copyCommand = new CopyCommand(this.unistylusModule.fileService);
+    this.serveCommand = new ServeCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.buildService
+    );
+    this.buildCommand = new BuildCommand(this.unistylusModule.buildService);
   }
 
   getApp() {
@@ -127,6 +150,32 @@ export class Cli {
         .aliases(aliases)
         .description(description)
         .action(path => this.cleanCommand.run(path));
+    })();
+
+    // serve
+    (() => {
+      const [[command, ...aliases], description, srcOpt, outOpt] =
+        this.serveCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .option(...srcOpt)
+        .option(...outOpt)
+        .description(description)
+        .action(options => this.serveCommand.run(options));
+    })();
+
+    // build
+    (() => {
+      const [[command, ...aliases], description, srcOpt, outOpt] =
+        this.buildCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .option(...srcOpt)
+        .option(...outOpt)
+        .description(description)
+        .action(options => this.buildCommand.run(options));
     })();
 
     // help

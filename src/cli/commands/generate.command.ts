@@ -181,21 +181,11 @@ export class GenerateCommand {
                   const defaultContent = await this.fileService.readText(
                     resolve(contentPath, name, 'default.scss')
                   );
-                  const finalDefaultContent = defaultContent.replace(
-                    '[default]',
-                    `.${name}, .${name}-default`
+                  this.fileService.createFile(
+                    resolve(contentOutPath, `${name}.scss`),
+                    defaultContent.replace('[default]', `.${name}`)
                   );
-                  await Promise.all([
-                    this.fileService.createFile(
-                      resolve(contentOutPath, `${name}.scss`),
-                      finalDefaultContent
-                    ),
-                    this.fileService.createFile(
-                      resolve(contentOutPath, `${name}-default.scss`),
-                      finalDefaultContent
-                    ),
-                  ]);
-                  variantIncludes.push(`${name}-default`);
+                  variantIncludes.push(name);
                 }
                 // II.2.B - other variants
                 await Promise.all(

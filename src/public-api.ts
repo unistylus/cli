@@ -5,8 +5,11 @@ export * from './cli/commands/new.command';
 export * from './cli/commands/generate.command';
 export * from './cli/commands/clean.command';
 export * from './cli/commands/copy.command';
+export * from './cli/commands/serve.command';
+export * from './cli/commands/build.command';
 
 export * from './lib/services/message.service';
 export * from './lib/services/file.service';
 export * from './lib/services/download.service';
 export * from './lib/services/project.service';
+export * from './lib/services/build.service';
