@@ -1,14 +1,14 @@
 import {red} from 'chalk';
 import {Command} from 'commander';
 import {Lib as UnistylusModule} from '../lib/index';
-import {InitCommand} from './commands/init.command';
+import {NewCommand} from './commands/new.command';
 import {GenerateCommand} from './commands/generate.command';
 import {CleanCommand} from './commands/clean.command';
 import {CopyCommand} from './commands/copy.command';
 
 export class Cli {
   private unistylusModule: UnistylusModule;
-  initCommand: InitCommand;
+  newCommand: NewCommand;
   generateCommand: GenerateCommand;
   cleanCommand: CleanCommand;
   copyCommand: CopyCommand;
@@ -16,11 +16,14 @@ export class Cli {
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
   /**
-   * @param path? - Custom path to the project
+   * @param name - The soul name
+   * @param description? - The description
    */
-  initCommandDef: CommandDef = [
-    ['init [path]', 'i'],
-    'Add Unistylus tools to a project.',
+  newCommandDef: CommandDef = [
+    ['new <name> [description]', 'n'],
+    'Create a new soul.',
+    ['-i, --skip-install', 'Do not install dependency packages.'],
+    ['-g, --skip-git', 'Do not initialize a git repository.'],
   ];
 
   /**
@@ -51,9 +54,9 @@ export class Cli {
 
   constructor() {
     this.unistylusModule = new UnistylusModule();
-    this.initCommand = new InitCommand(
+    this.newCommand = new NewCommand(
       this.unistylusModule.fileService,
-      this.unistylusModule.projectService
+      this.unistylusModule.downloadService
     );
     this.generateCommand = new GenerateCommand(
       this.unistylusModule.fileService,
@@ -75,19 +78,25 @@ export class Cli {
       .usage('[options] [command]')
       .description(description);
 
-    // init
+    // new
     (() => {
-      const [[command, ...aliases], description] = this.initCommandDef;
+      const [[command, ...aliases], description, skipInstallOpt, skipGitOpt] =
+        this.newCommandDef;
       commander
         .command(command)
         .aliases(aliases)
+        .option(...skipInstallOpt)
+        .option(...skipGitOpt)
         .description(description)
-        .action(path => this.initCommand.run(path));
+        .action((name, description, options) =>
+          this.newCommand.run(name, description, options)
+        );
     })();
 
     // generate
     (() => {
-      const [[command, ...aliases], description, apiOpt] = this.generateCommandDef;
+      const [[command, ...aliases], description, apiOpt] =
+        this.generateCommandDef;
       commander
         .command(command)
         .aliases(aliases)

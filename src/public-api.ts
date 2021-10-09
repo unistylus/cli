@@ -1,7 +1,7 @@
 export {Lib as UnistylusModule} from './lib/index';
 export {Cli as UnistylusCliModule} from './cli/index';
 
-export * from './cli/commands/init.command';
+export * from './cli/commands/new.command';
 export * from './cli/commands/generate.command';
 export * from './cli/commands/clean.command';
 export * from './cli/commands/copy.command';
