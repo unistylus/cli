@@ -12,12 +12,16 @@
   },
   "files": [
     "src",
+    "assets",
     "!**/*.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "!**/*.scss"
   ],
   "scripts": {
     "compile": "tsc",
-    "build:lib": "npm run compile && npm i -g",
+    "styles": "sass --style=compressed assets/styles",
+    "scripts": "tsc assets/scripts/index.ts --target es5 --sourceMap",
+    "build:lib": "npm run compile && npm i -g && npm run styles && npm run scripts",
     "build:app": "ayedocs generate && cpy src/CNAME docs",
     "build": "npm run build:app && npm run build:lib",
     "deploy:lib": "npm publish",

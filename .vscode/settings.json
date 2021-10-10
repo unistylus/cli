@@ -8,6 +8,8 @@
     "docs/": true,
     "src/**/*.js": true,
     "test/**/*.js": true,
+    "assets/styles/**/*.css": true,
+    "assets/scripts/**/*.js": true,
     "**/*.d.ts": true,
     "**/*.map": true
   }
