@@ -14,8 +14,8 @@
     "src",
     "assets",
     "!**/*.ts",
-    "**/*.d.ts",
-    "!**/*.scss"
+    "!**/*.scss",
+    "**/*.d.ts"
   ],
   "scripts": {
     "compile": "tsc",
