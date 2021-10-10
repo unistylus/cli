@@ -49,7 +49,7 @@ export class WebService {
         ${footerHtml}
 
         <!-- Global script -->
-        <script src="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/styles/index.js"></script>
+        <script src="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/scripts/index.js"></script>
         <!-- Main script -->
         <script src="index.js"></script>
       </body>
