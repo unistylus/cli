@@ -23,11 +23,18 @@ export class BuildService {
   ) {}
 
   async buildWeb(out: string) {
+    const {webCopies} = await this.projectService.readDotUnistylusRCDotJson();
     const processedResult = await this.processParts(out);
     // save Unistylus parts
     await this.saveWebParts(processedResult);
     // save index.html
     await this.saveWebIndex(processedResult, out);
+    // save group indexes
+    await this.saveWebGroupIndexes(processedResult, out);
+    // copies resources
+    if (webCopies) {
+      await this.fileService.copies(webCopies, out);
+    }
   }
 
   async processParts(out: string) {
@@ -47,11 +54,10 @@ export class BuildService {
     );
     processedResult.push(coreProcessedResult);
     // by groups
-    const groups = (await this.fileService.listDir('src'))
-      .filter(path => path.indexOf('.scss') === -1)
-      .map(path => path.replace(/\\/g, '/').split('/').pop() as string);
     await Promise.all(
-      groups.map(group =>
+      (
+        await this.getPartGroups()
+      ).map(group =>
         (async () => {
           const contentGroupResult = await this.processPartsByGroup(group, out);
           processedResult.push(...contentGroupResult);
@@ -314,8 +320,62 @@ export class BuildService {
     processedResult: PartProcessedResult,
     out: string
   ) {
-    const indexContent = 'TODO: ...';
-    this.fileService.createFile(resolve(out, 'index.html'), indexContent);
+    // html
+    const main = this.helperService.untabCodeBlock(`
+      <p><strong>TODO</strong>: Add group browsing, search all parts, ...</p>
+      <p>In the mean time, use the direct urls:</p>
+      <ul>
+        <li><a href="/core">/core</a></li>
+        <li><a href="/content/text-primary">/content/text-primary</a></li>
+        <li><a href="/form/form-control">/form/form-control</a></li>
+        <li><a href="/components/button-secondary">/components/button-secondary</a></li>
+        <li><a href="/utilities/background-success">/utilities/background-success</a></li>
+        <li>...</li>
+      </ul>
+    `);
+    await this.fileService.createFile(
+      resolve(out, 'index.html'),
+      await this.webService.buildHTMLContent(main)
+    );
+    // css
+    await this.fileService.createFile(
+      resolve(out, 'index.css'),
+      '// no styles'
+    );
+    // js
+    await this.fileService.createFile(
+      resolve(out, 'index.js'),
+      '// no scripts'
+    );
+  }
+
+  private async saveWebGroupIndexes(
+    processedResult: PartProcessedResult,
+    out: string
+  ) {
+    const builder = async (group: string) => {
+      // html
+      const main = this.helperService.untabCodeBlock(`
+        <p><strong>TODO</strong>: List parts belong to the group: ${group}.</p>
+      `);
+      await this.fileService.createFile(
+        resolve(out, group, 'index.html'),
+        await this.webService.buildHTMLContent(main)
+      );
+      // css
+      await this.fileService.createFile(
+        resolve(out, group, 'index.css'),
+        '// no styles'
+      );
+      // js
+      await this.fileService.createFile(
+        resolve(out, group, 'index.js'),
+        '// no scripts'
+      );
+    };
+    return Promise.all(
+      (await this.getPartGroups()).map(group => builder(group))
+    );
   }
 
   private async saveWebParts(processedResult: PartProcessedResult) {
@@ -337,11 +397,23 @@ export class BuildService {
   ) {
     const {scssPath} = processedItem;
     const outDir = scssPath.replace('.scss', '');
-    // main
-    const main = 'TODO: ...';
-    this.fileService.createFile(
+    // html
+    const main = this.helperService.untabCodeBlock(`
+      <p><strong>TODO</strong>: List variations of this part.</p>
+    `);
+    await this.fileService.createFile(
       resolve(outDir, 'index.html'),
       await this.webService.buildHTMLContent(main)
+    );
+    // css
+    await this.fileService.createFile(
+      resolve(outDir, 'index.css'),
+      '// no styles'
+    );
+    // js
+    await this.fileService.createFile(
+      resolve(outDir, 'index.js'),
+      '// no scripts'
     );
   }
 
@@ -352,25 +424,7 @@ export class BuildService {
     const {exportPath, scssPath, scssContent} = processedItem;
     const outDir = scssPath.replace('.scss', '');
     // html
-    const templateName = exportPath.split('-').shift() as string;
-    const vendorTemplatePath = resolve(
-      'node_modules',
-      '@unistylus',
-      'cli',
-      'assets',
-      'templates',
-      `${templateName}.html`
-    );
-    const customTemplatePath = resolve(
-      'unistylus',
-      'templates',
-      `${templateName}.html`
-    );
-    const templatePath = (await this.fileService.exists(vendorTemplatePath))
-      ? vendorTemplatePath
-      : (await this.fileService.exists(customTemplatePath))
-      ? customTemplatePath
-      : '';
+    const templatePath = await this.getTemplatePath(exportPath);
     const html = !templatePath
       ? '<p>No template found!</p>'
       : (await this.fileService.readText(templatePath)).replace(
@@ -395,5 +449,39 @@ export class BuildService {
       resolve(outDir, 'index.js'),
       '// No JS available!'
     );
+  }
+
+  private async getPartGroups() {
+    return (await this.fileService.listDir('src'))
+      .filter(path => path.indexOf('.scss') === -1)
+      .map(path => path.replace(/\\/g, '/').split('/').pop() as string);
+  }
+
+  private getTemplatePath(exportPath: string) {
+    const posibleTemplatePaths: string[] = [];
+    const exportPathDirs = exportPath.split('/');
+    const exportPathFileSplits = (exportPathDirs.pop() as string).split('-');
+    const exportPathPrefix = !exportPathDirs.length
+      ? ''
+      : exportPathDirs.join('/') + '/';
+    exportPathFileSplits.forEach((_, i) => {
+      const templateName =
+        exportPathPrefix + exportPathFileSplits.slice(0, i + 1).join('-');
+      posibleTemplatePaths.push(
+        // custom
+        resolve('unistylus', 'templates', `${templateName}.html`),
+        // vendor templates
+        resolve(
+          'node_modules',
+          '@unistylus',
+          'cli',
+          'assets',
+          'templates',
+          `${templateName}.html`
+        )
+      );
+    });
+    // check template
+    return this.fileService.anyExists(posibleTemplatePaths);
   }
 }

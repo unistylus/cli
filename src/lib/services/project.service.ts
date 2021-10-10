@@ -3,10 +3,23 @@ import {resolve} from 'path';
 import {FileService} from './file.service';
 
 export interface DotUnistylusRCDotJson {
-  name: string;
   out?: string;
   copies?: string[];
   variables?: SoulGeneratingVariables;
+  webCopies?: string[];
+}
+
+export interface PackageDotJson {
+  name: string;
+  version: string;
+  description: string;
+  author: string;
+  homepage: string;
+  license: string;
+  repository: {
+    type: string;
+    url: string;
+  };
 }
 
 export interface SoulGeneratingVariables
@@ -64,6 +77,7 @@ export class ProjectService {
   };
 
   private cachedRCJson?: DotUnistylusRCDotJson;
+  private cachedPackageJson?: PackageDotJson;
 
   constructor(private fileService: FileService) {}
 
@@ -79,5 +93,15 @@ export class ProjectService {
       resolve(projectPath, this.rcFile)
     );
     return this.cachedRCJson as DotUnistylusRCDotJson;
+  }
+
+  async readPackageDotJson(projectPath = '.') {
+    if (this.cachedPackageJson) {
+      return this.cachedPackageJson;
+    }
+    this.cachedPackageJson = await this.fileService.readJson<PackageDotJson>(
+      resolve(projectPath, 'package.json')
+    );
+    return this.cachedPackageJson as PackageDotJson;
   }
 }

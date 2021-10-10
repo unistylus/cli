@@ -85,7 +85,13 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#downloadandunzip" class="tsd-kind-icon">download<wbr>And<wbr>Unzip</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#downloadblob" class="tsd-kind-icon">download<wbr>Blob</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#downloadtext" class="tsd-kind-icon">download<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#extractfilepath" class="tsd-kind-icon">extract<wbr>File<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#fetchtext" class="tsd-kind-icon">fetch<wbr>Text</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#unnest" class="tsd-kind-icon">unnest</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="downloadservice.html#unzip" class="tsd-kind-icon">unzip</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,7 +109,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/2309128/src/lib/services/download.service.ts#L6">lib/services/download.service.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L15">src/lib/services/download.service.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -120,6 +126,58 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="downloadandunzip" class="tsd-anchor"></a>
+					<h3>download<wbr>And<wbr>Unzip</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<wbr>And<wbr>Unzip<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L18">src/lib/services/download.service.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="downloadblob" class="tsd-anchor"></a>
+					<h3>download<wbr>Blob</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<wbr>Blob<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L36">src/lib/services/download.service.ts:36</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="downloadtext" class="tsd-anchor"></a>
 					<h3>download<wbr>Text</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -129,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/2309128/src/lib/services/download.service.ts#L9">lib/services/download.service.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L64">src/lib/services/download.service.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -137,6 +195,118 @@
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="extractfilepath" class="tsd-anchor"></a>
+					<h3>extract<wbr>File<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">extract<wbr>File<wbr>Path<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>fileFullName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>folderName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>folderPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>pathSegments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L100">src/lib/services/download.service.ts:100</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>fileFullName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>folderName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>folderPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>pathSegments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>file<wbr>Full<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>file<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>file<wbr>Path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>folder<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>folder<wbr>Path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>path<wbr>Segments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetchtext" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Text<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L55">src/lib/services/download.service.ts:55</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="unnest" class="tsd-anchor"></a>
+					<h3>unnest</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">unnest<span class="tsd-signature-symbol">(</span>dir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L80">src/lib/services/download.service.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dir: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="unzip" class="tsd-anchor"></a>
+					<h3>unzip</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">unzip<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/download.service.ts#L69">src/lib/services/download.service.ts:69</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
 									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
 								</li>
@@ -158,6 +328,12 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
+						<a href="buildcommand.html" class="tsd-kind-icon">Build<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="buildservice.html" class="tsd-kind-icon">Build<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="cleancommand.html" class="tsd-kind-icon">Clean<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -175,7 +351,25 @@
 								<a href="downloadservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#downloadandunzip" class="tsd-kind-icon">download<wbr>And<wbr>Unzip</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#downloadblob" class="tsd-kind-icon">download<wbr>Blob</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="downloadservice.html#downloadtext" class="tsd-kind-icon">download<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#extractfilepath" class="tsd-kind-icon">extract<wbr>File<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#fetchtext" class="tsd-kind-icon">fetch<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#unnest" class="tsd-kind-icon">unnest</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="downloadservice.html#unzip" class="tsd-kind-icon">unzip</a>
 							</li>
 						</ul>
 					</li>
@@ -188,7 +382,7 @@
 						<a href="generatecommand.html" class="tsd-kind-icon">Generate<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="initcommand.html" class="tsd-kind-icon">Init<wbr>Command</a>
+						<a href="helperservice.html" class="tsd-kind-icon">Helper<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="lib.html" class="tsd-kind-icon">Lib</a>
@@ -197,7 +391,22 @@
 						<a href="messageservice.html" class="tsd-kind-icon">Message<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="newcommand.html" class="tsd-kind-icon">New<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="projectservice.html" class="tsd-kind-icon">Project<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="servecommand.html" class="tsd-kind-icon">Serve<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="webservice.html" class="tsd-kind-icon">Web<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/buildcommandoptions.html" class="tsd-kind-icon">Build<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/buildhtmloptions.html" class="tsd-kind-icon">BuildHTMLOptions</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
@@ -209,10 +418,25 @@
 						<a href="../interfaces/generateoptions.html" class="tsd-kind-icon">Generate<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/newcommandoptions.html" class="tsd-kind-icon">New<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/packagedotjson.html" class="tsd-kind-icon">Package<wbr>Dot<wbr>Json</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/partprocesseditem.html" class="tsd-kind-icon">Part<wbr>Processed<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/servecommandoptions.html" class="tsd-kind-icon">Serve<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/soulgeneratingvariables.html" class="tsd-kind-icon">Soul<wbr>Generating<wbr>Variables</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#commanddef" class="tsd-kind-icon">Command<wbr>Def</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#partprocessedresult" class="tsd-kind-icon">Part<wbr>Processed<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#any" class="tsd-kind-icon">ANY</a>
@@ -231,6 +455,9 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#cliapp" class="tsd-kind-icon">cli<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#sassrender" class="tsd-kind-icon">sass<wbr>Render</a>
 					</li>
 				</ul>
 			</nav>

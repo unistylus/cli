@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>InitCommand | @unistylus/cli</title>
+	<title>WebService | @unistylus/cli</title>
 	<meta name="description" content="Documentation for @unistylus/cli">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="initcommand.html">InitCommand</a>
+					<a href="webservice.html">WebService</a>
 				</li>
 			</ul>
-			<h1>Class InitCommand</h1>
+			<h1>Class WebService</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">InitCommand</span>
+						<span class="target">WebService</span>
 					</li>
 				</ul>
 			</section>
@@ -79,13 +79,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="initcommand.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="webservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="initcommand.html#run" class="tsd-kind-icon">run</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="webservice.html#buildhtmlcontent" class="tsd-kind-icon">buildHTMLContent</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,25 +97,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Init<wbr>Command<span class="tsd-signature-symbol">(</span>fileService<span class="tsd-signature-symbol">: </span><a href="fileservice.html" class="tsd-signature-type">FileService</a>, projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="initcommand.html" class="tsd-signature-type">InitCommand</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Web<wbr>Service<span class="tsd-signature-symbol">(</span>helperService<span class="tsd-signature-symbol">: </span><a href="helperservice.html" class="tsd-signature-type">HelperService</a>, projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="webservice.html" class="tsd-signature-type">WebService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/2309128/src/cli/commands/init.command.ts#L7">cli/commands/init.command.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/web.service.ts#L8">src/lib/services/web.service.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fileService: <a href="fileservice.html" class="tsd-signature-type">FileService</a></h5>
+									<h5>helperService: <a href="helperservice.html" class="tsd-signature-type">HelperService</a></h5>
 								</li>
 								<li>
 									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="initcommand.html" class="tsd-signature-type">InitCommand</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="webservice.html" class="tsd-signature-type">WebService</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -123,25 +123,28 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="run" class="tsd-anchor"></a>
-					<h3>run</h3>
+					<a name="buildhtmlcontent" class="tsd-anchor"></a>
+					<h3>buildHTMLContent</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>customPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">buildHTMLContent<span class="tsd-signature-symbol">(</span>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/buildhtmloptions.html" class="tsd-signature-type">BuildHTMLOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/2309128/src/cli/commands/init.command.ts#L13">cli/commands/init.command.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/web.service.ts#L14">src/lib/services/web.service.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> customPath: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;.&quot;</span></h5>
+									<h5>main: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/buildhtmloptions.html" class="tsd-signature-type">BuildHTMLOptions</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -157,6 +160,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="buildcommand.html" class="tsd-kind-icon">Build<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="buildservice.html" class="tsd-kind-icon">Build<wbr>Service</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="cleancommand.html" class="tsd-kind-icon">Clean<wbr>Command</a>
 					</li>
@@ -175,21 +184,9 @@
 					<li class=" tsd-kind-class">
 						<a href="generatecommand.html" class="tsd-kind-icon">Generate<wbr>Command</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="initcommand.html" class="tsd-kind-icon">Init<wbr>Command</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="initcommand.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="initcommand.html#run" class="tsd-kind-icon">run</a>
-							</li>
-						</ul>
+					<li class=" tsd-kind-class">
+						<a href="helperservice.html" class="tsd-kind-icon">Helper<wbr>Service</a>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="lib.html" class="tsd-kind-icon">Lib</a>
 					</li>
@@ -197,7 +194,34 @@
 						<a href="messageservice.html" class="tsd-kind-icon">Message<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="newcommand.html" class="tsd-kind-icon">New<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="projectservice.html" class="tsd-kind-icon">Project<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="servecommand.html" class="tsd-kind-icon">Serve<wbr>Command</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="webservice.html" class="tsd-kind-icon">Web<wbr>Service</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="webservice.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="webservice.html#buildhtmlcontent" class="tsd-kind-icon">buildHTMLContent</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/buildcommandoptions.html" class="tsd-kind-icon">Build<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/buildhtmloptions.html" class="tsd-kind-icon">BuildHTMLOptions</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
@@ -209,10 +233,25 @@
 						<a href="../interfaces/generateoptions.html" class="tsd-kind-icon">Generate<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/newcommandoptions.html" class="tsd-kind-icon">New<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/packagedotjson.html" class="tsd-kind-icon">Package<wbr>Dot<wbr>Json</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/partprocesseditem.html" class="tsd-kind-icon">Part<wbr>Processed<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/servecommandoptions.html" class="tsd-kind-icon">Serve<wbr>Command<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/soulgeneratingvariables.html" class="tsd-kind-icon">Soul<wbr>Generating<wbr>Variables</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#commanddef" class="tsd-kind-icon">Command<wbr>Def</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#partprocessedresult" class="tsd-kind-icon">Part<wbr>Processed<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#any" class="tsd-kind-icon">ANY</a>
@@ -231,6 +270,9 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#cliapp" class="tsd-kind-icon">cli<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#sassrender" class="tsd-kind-icon">sass<wbr>Render</a>
 					</li>
 				</ul>
 			</nav>

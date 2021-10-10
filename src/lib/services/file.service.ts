@@ -20,6 +20,18 @@ export class FileService {
     return pathExists(path);
   }
 
+  async anyExists(paths: string[]) {
+    let result = '';
+    for (let i = 0; i < paths.length; i++) {
+      const path = paths[i];
+      if (await this.exists(path)) {
+        result = path;
+        break;
+      }
+    }
+    return result;
+  }
+
   readText(filePath: string) {
     return readFile(filePath, 'utf8');
   }

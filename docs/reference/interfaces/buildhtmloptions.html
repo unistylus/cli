@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CopyOptions | @unistylus/cli</title>
+	<title>BuildHTMLOptions | @unistylus/cli</title>
 	<meta name="description" content="Documentation for @unistylus/cli">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="copyoptions.html">CopyOptions</a>
+					<a href="buildhtmloptions.html">BuildHTMLOptions</a>
 				</li>
 			</ul>
-			<h1>Interface CopyOptions</h1>
+			<h1>Interface BuildHTMLOptions</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CopyOptions</span>
+						<span class="target">BuildHTMLOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -79,9 +79,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="copyoptions.html#clean" class="tsd-kind-icon">clean</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="copyoptions.html#out" class="tsd-kind-icon">out</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="copyoptions.html#src" class="tsd-kind-icon">src</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="buildhtmloptions.html#menu" class="tsd-kind-icon">menu</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="buildhtmloptions.html#titlesuffix" class="tsd-kind-icon">title<wbr>Suffix</a></li>
 							</ul>
 						</section>
 					</div>
@@ -90,32 +89,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="clean" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> clean</h3>
-					<div class="tsd-signature tsd-kind-icon">clean<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<a name="menu" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> menu</h3>
+					<div class="tsd-signature tsd-kind-icon">menu<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/copy.command.ts#L10">src/cli/commands/copy.command.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/web.service.ts#L5">src/lib/services/web.service.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="out" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> out</h3>
-					<div class="tsd-signature tsd-kind-icon">out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="titlesuffix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> title<wbr>Suffix</h3>
+					<div class="tsd-signature tsd-kind-icon">title<wbr>Suffix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/copy.command.ts#L9">src/cli/commands/copy.command.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="src" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> src</h3>
-					<div class="tsd-signature tsd-kind-icon">src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/copy.command.ts#L8">src/cli/commands/copy.command.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/lib/services/web.service.ts#L6">src/lib/services/web.service.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,27 +168,24 @@
 					<li class=" tsd-kind-interface">
 						<a href="buildcommandoptions.html" class="tsd-kind-icon">Build<wbr>Command<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="buildhtmloptions.html" class="tsd-kind-icon">BuildHTMLOptions</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
+						<a href="buildhtmloptions.html" class="tsd-kind-icon">BuildHTMLOptions</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="copyoptions.html#clean" class="tsd-kind-icon">clean</a>
+								<a href="buildhtmloptions.html#menu" class="tsd-kind-icon">menu</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="copyoptions.html#out" class="tsd-kind-icon">out</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="copyoptions.html#src" class="tsd-kind-icon">src</a>
+								<a href="buildhtmloptions.html#titlesuffix" class="tsd-kind-icon">title<wbr>Suffix</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="copyoptions.html" class="tsd-kind-icon">Copy<wbr>Options</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="dotunistylusrcdotjson.html" class="tsd-kind-icon">Dot<wbr>UnistylusRCDot<wbr>Json</a>
 					</li>

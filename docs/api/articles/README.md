@@ -11,10 +11,12 @@
 - [Getting started](#getting-started)
 - [Command overview](#cli-command-overview)
 - [Command reference](#cli-command-reference)
+  - [`build`](#command-build)
   - [`clean`](#command-clean)
   - [`copy`](#command-copy)
   - [`generate`](#command-generate)
-  - [`init`](#command-init)
+  - [`new`](#command-new)
+  - [`serve`](#command-serve)
   - [`help`](#command-help)
   - [`*`](#command-*)
 - [Detail API reference](https://unistylus-cli.lamnhan.com)
@@ -63,15 +65,33 @@ Next, see the homepage: [https://unistylus.lamnhan.com](https://unistylus.lamnha
 
 Tools for the Unistylus framework.
 
+- [`unistylus build|b --out [value]`](#command-build)
 - [`unistylus clean|del|d <path>`](#command-clean)
 - [`unistylus copy|c [items...] --src [value] --out [value] --clean`](#command-copy)
 - [`unistylus generate|g [path] --api`](#command-generate)
-- [`unistylus init|i [path]`](#command-init)
+- [`unistylus new|n <name> [description] --skip-install --skip-git`](#command-new)
+- [`unistylus serve|s --out [value]`](#command-serve)
 - [`unistylus help`](#command-help)
 - [`unistylus *`](#command-*)
 
 <h2><a name="cli-command-reference"><p>Command reference</p>
 </a></h2>
+
+<h3><a name="command-build"><p><code>build</code></p>
+</a></h3>
+
+Build web.
+
+**Usage:**
+
+```sh
+unistylus build --out [value]
+unistylus b --out [value]
+```
+
+**Options:**
+
+- `-o, --out [value]`: Custom output folder.
 
 <h3><a name="command-clean"><p><code>clean</code></p>
 </a></h3>
@@ -132,21 +152,43 @@ unistylus g [path] --api
 
 - `-a, --api`: Output the API.
 
-<h3><a name="command-init"><p><code>init</code></p>
+<h3><a name="command-new"><p><code>new</code></p>
 </a></h3>
 
-Add Unistylus tools to a project.
+Create a new soul.
 
 **Usage:**
 
 ```sh
-unistylus init [path]
-unistylus i [path]
+unistylus new <name> [description] --skip-install --skip-git
+unistylus n <name> [description] --skip-install --skip-git
 ```
 
 **Parameters:**
 
-- `[path]`: Custom path to the project
+- `<name>`: The soul name
+- `[description]`: The description
+
+**Options:**
+
+- `-i, --skip-install`: Do not install dependency packages.
+- `-g, --skip-git`: Do not initialize a git repository.
+
+<h3><a name="command-serve"><p><code>serve</code></p>
+</a></h3>
+
+Serve the soul for development.
+
+**Usage:**
+
+```sh
+unistylus serve --out [value]
+unistylus s --out [value]
+```
+
+**Options:**
+
+- `-o, --out [value]`: Custom output folder.
 
 <h3><a name="command-help"><p><code>help</code></p>
 </a></h3>
