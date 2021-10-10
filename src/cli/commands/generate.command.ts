@@ -23,7 +23,6 @@ export class GenerateCommand {
   async run(customPath = '.', options: GenerateOptions) {
     // read configs
     const {
-      src = 'src',
       out = 'dist',
       copies = [],
       variables = {},
@@ -31,9 +30,9 @@ export class GenerateCommand {
     // clear out
     await this.fileService.clearDir(resolve(out));
     // copy resources
-    await this.fileService.copies(copies, out, src);
+    await this.fileService.copies(copies, out, 'src');
     // generate souls
-    const apiList = await this.generateSoul(src, out, {
+    const apiList = await this.generateSoul('src', out, {
       ...this.projectService.defaultVariables,
       ...variables,
     });

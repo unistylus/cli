@@ -3,7 +3,6 @@ import {resolve} from 'path';
 import {FileService} from './file.service';
 
 export interface DotUnistylusRCDotJson {
-  src?: string;
   out?: string;
   copies?: string[];
   variables?: SoulGeneratingVariables;
@@ -67,7 +66,6 @@ export class ProjectService {
 
   createDotUnistylusRCDotJson(projectPath = '.') {
     return this.fileService.createJson(resolve(projectPath, this.rcFile), {
-      src: 'src',
       out: 'dist',
     });
   }

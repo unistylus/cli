@@ -84,9 +84,9 @@ export class BuildService {
   }
 
   private async processPartsByGroup(partGroup: string, out: string) {
-    const {src = 'src', variables: customVariables = {}} =
+    const {variables: customVariables = {}} =
       await this.projectService.readDotUnistylusRCDotJson();
-    const soulPath = resolve(src);
+    const soulPath = resolve('src');
     const soulOutPath = resolve(out);
     const contentPath = resolve(soulPath, partGroup);
     const contentOutPath = resolve(soulOutPath, partGroup);
