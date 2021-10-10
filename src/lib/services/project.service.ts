@@ -71,13 +71,6 @@ export class ProjectService {
     return this.fileService.exists(resolve(projectPath, this.rcFile));
   }
 
-  createDotUnistylusRCDotJson(projectPath = '.') {
-    return this.fileService.createJson(resolve(projectPath, this.rcFile), {
-      name: 'foo',
-      out: 'dist',
-    });
-  }
-
   async readDotUnistylusRCDotJson(projectPath = '.') {
     if (this.cachedRCJson) {
       return this.cachedRCJson;
