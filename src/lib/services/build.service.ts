@@ -338,7 +338,7 @@ export class BuildService {
     const main = 'TODO: ...';
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      this.webService.buildHTMLContent(main)
+      await this.webService.buildHTMLContent(main)
     );
   }
 
@@ -352,7 +352,7 @@ export class BuildService {
     const html = 'TODO: ...';
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      this.webService.buildHTMLContent(html)
+      await this.webService.buildHTMLContent(html)
     );
     // css
     const {css: cssBuffer} = await sassRender({data: scssContent});
