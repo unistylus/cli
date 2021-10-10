@@ -71,7 +71,7 @@ export class BuildService {
       ? await this.fileService.readText(resolve('src', file))
       : await this.downloadService.fetchText(remoteUrl);
     return {
-      exportPath: file,
+      exportPath: file.replace('.scss', ''),
       scssPath: resolve(out, file),
       scssContent,
     } as PartProcessedItem;
@@ -296,7 +296,10 @@ export class BuildService {
                     .map(item => `@import './${item.exportPath}';`)
                     .join('\n'),
                 },
-                subResult
+                subResult.map(item => {
+                  item.exportPath = `${partGroup}/${item.exportPath}`;
+                  return item;
+                })
               );
             }
           })();
@@ -346,13 +349,40 @@ export class BuildService {
     processedItem: PartProcessedItem,
     processedResult: PartProcessedResult
   ) {
-    const {scssPath, scssContent} = processedItem;
+    const {exportPath, scssPath, scssContent} = processedItem;
     const outDir = scssPath.replace('.scss', '');
     // html
-    const html = 'TODO: ...';
+    const templateName = exportPath.split('-').shift() as string;
+    const vendorTemplatePath = resolve(
+      'node_modules',
+      '@unistylus',
+      'cli',
+      'assets',
+      'templates',
+      `${templateName}.html`
+    );
+    const customTemplatePath = resolve(
+      'unistylus',
+      'templates',
+      `${templateName}.html`
+    );
+    const templatePath = (await this.fileService.exists(vendorTemplatePath))
+      ? vendorTemplatePath
+      : (await this.fileService.exists(customTemplatePath))
+      ? customTemplatePath
+      : '';
+    const html = !templatePath
+      ? '<p>No template found!</p>'
+      : (await this.fileService.readText(templatePath)).replace(
+          /\[class\]/g,
+          exportPath.split('/').pop() as string
+        );
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      await this.webService.buildHTMLContent(html)
+      await this.webService.buildHTMLContent(html, {
+        titleSuffix: exportPath,
+        menu: '', // TODO: ...
+      })
     );
     // css
     const {css: cssBuffer} = await sassRender({data: scssContent});

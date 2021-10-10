@@ -1,15 +1,23 @@
 import {HelperService} from './helper.service';
 import {ProjectService} from './project.service';
 
+export interface BuildHTMLOptions {
+  menu?: string;
+  titleSuffix?: string;
+}
 export class WebService {
   constructor(
     private helperService: HelperService,
     private projectService: ProjectService
   ) {}
 
-  async buildHTMLContent(main: string, menu?: string) {
+  async buildHTMLContent(main: string, options?: BuildHTMLOptions) {
+    const {menu, titleSuffix} = options || {};
     const {name: unistylusName} =
       await this.projectService.readDotUnistylusRCDotJson();
+    const title = !titleSuffix
+      ? unistylusName
+      : `${unistylusName}/${titleSuffix}`;
     const cliVersion = require('../../../package.json').version;
     const headerHtml = this.getHeaderHtml();
     const footerHtml = this.getFooterHtml();
@@ -20,7 +28,7 @@ export class WebService {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${unistylusName} - a Unistylus collection</title>
+        <title>Unistylus: ${title}</title>
         <meta name="description" content="The Unistylus collection: ${unistylusName}, visit unistylus.lamnhan.com">
         <!-- Helper style -->
         <link rel="stylesheet" href="https://unpkg.com/@unistylus/core@latest/css/skins/light-default.css">

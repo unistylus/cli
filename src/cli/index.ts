@@ -81,8 +81,14 @@ export class Cli {
     );
     this.cleanCommand = new CleanCommand(this.unistylusModule.fileService);
     this.copyCommand = new CopyCommand(this.unistylusModule.fileService);
-    this.serveCommand = new ServeCommand(this.unistylusModule.buildService);
-    this.buildCommand = new BuildCommand(this.unistylusModule.buildService);
+    this.serveCommand = new ServeCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.buildService
+    );
+    this.buildCommand = new BuildCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.buildService
+    );
   }
 
   getApp() {
