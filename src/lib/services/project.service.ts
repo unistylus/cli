@@ -25,7 +25,11 @@ export interface SoulGeneratingVariables
   palettes_and_size_variants?: never[];
 }
 
-export interface ProcessPartsByGroupResult {
+export type PartProcessedResult = Array<
+  PartProcessedItem | PartProcessedItem[]
+>;
+
+export interface PartProcessedItem {
   exportPath: string;
   scssPath: string;
   scssContent: string;

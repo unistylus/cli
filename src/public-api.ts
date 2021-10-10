@@ -8,6 +8,7 @@ export * from './cli/commands/copy.command';
 export * from './cli/commands/serve.command';
 export * from './cli/commands/build.command';
 
+export * from './lib/services/helper.service';
 export * from './lib/services/message.service';
 export * from './lib/services/file.service';
 export * from './lib/services/download.service';

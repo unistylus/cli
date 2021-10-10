@@ -3,13 +3,19 @@ import {promisify} from 'util';
 import {render} from 'sass';
 const sassRender = promisify(render);
 
+import {HelperService} from './helper.service';
 import {FileService} from './file.service';
 import {DownloadService} from './download.service';
-import {ProjectService, ProcessPartsByGroupResult} from './project.service';
+import {
+  ProjectService,
+  PartProcessedResult,
+  PartProcessedItem,
+} from './project.service';
 import {WebService} from './web.service';
 
 export class BuildService {
   constructor(
+    private helperService: HelperService,
     private fileService: FileService,
     private downloadService: DownloadService,
     private projectService: ProjectService,
@@ -24,35 +30,8 @@ export class BuildService {
     await this.saveWebIndex(processedResult, out);
   }
 
-  private async saveWebIndex(
-    processedResult: ProcessPartsByGroupResult[],
-    out: string
-  ) {
-    const indexContent = this.webService.buildIndex(processedResult);
-    this.fileService.createFile(resolve(out, 'index.html'), indexContent);
-  }
-
-  private async saveWebParts(processedResult: ProcessPartsByGroupResult[]) {
-    const menu = this.webService.buildMenu(processedResult);
-    // save files
-    await Promise.all(
-      processedResult.map(({exportPath, scssPath, scssContent}) => {
-        // ignore
-        if (exportPath.includes('-all')) {
-          return Promise.resolve();
-        }
-        // save file
-        return this.saveWebFile(
-          scssPath.replace('.scss', ''),
-          menu,
-          scssContent
-        );
-      })
-    );
-  }
-
   async processParts(out: string) {
-    const processedResult = [] as ProcessPartsByGroupResult[];
+    const processedResult = [] as PartProcessedResult;
     // reset.scss
     const resetProcessedResult = await this.processPartByIndividual(
       out,
@@ -83,6 +62,21 @@ export class BuildService {
     return processedResult;
   }
 
+  private async processPartByIndividual(
+    out: string,
+    file: string,
+    remoteUrl: string
+  ) {
+    const scssContent = (await this.fileService.exists(resolve('src', file)))
+      ? await this.fileService.readText(resolve('src', file))
+      : await this.downloadService.fetchText(remoteUrl);
+    return {
+      exportPath: file,
+      scssPath: resolve(out, file),
+      scssContent,
+    } as PartProcessedItem;
+  }
+
   private async processPartsByGroup(partGroup: string, out: string) {
     const {variables: customVariables = {}} =
       await this.projectService.readDotUnistylusRCDotJson();
@@ -99,7 +93,7 @@ export class BuildService {
       return [];
     }
     // if there is a source
-    const result = [] as ProcessPartsByGroupResult[];
+    const result = [] as PartProcessedResult;
     const names = await this.fileService.listDir(contentPath);
     await Promise.all(
       names.map(async name => {
@@ -133,7 +127,7 @@ export class BuildService {
             }
             // II.2 - with variations
             else {
-              const subResult = [] as Array<ProcessPartsByGroupResult>;
+              const subResult = [] as PartProcessedItem[];
               // II.2.A - default.scss
               if (childNames.indexOf('default.scss') !== -1) {
                 const defaultContent = await this.fileService.readText(
@@ -302,7 +296,7 @@ export class BuildService {
                     .map(item => `@import './${item.exportPath}';`)
                     .join('\n'),
                 },
-                ...subResult
+                subResult
               );
             }
           })();
@@ -313,30 +307,55 @@ export class BuildService {
     return result;
   }
 
-  private async processPartByIndividual(
-    out: string,
-    file: string,
-    remoteUrl: string
+  private async saveWebIndex(
+    processedResult: PartProcessedResult,
+    out: string
   ) {
-    const scssContent = (await this.fileService.exists(resolve('src', file)))
-      ? await this.fileService.readText(resolve('src', file))
-      : await this.downloadService.fetchText(remoteUrl);
-    return {
-      exportPath: file,
-      scssPath: resolve(out, file),
-      scssContent,
-    } as ProcessPartsByGroupResult;
+    const indexContent = 'TODO: ...';
+    this.fileService.createFile(resolve(out, 'index.html'), indexContent);
   }
 
-  private async saveWebFile(outDir: string, menu: string, scss: string) {
+  private async saveWebParts(processedResult: PartProcessedResult) {
+    await Promise.all(
+      this.helperService
+        .flatNestedArray<PartProcessedItem>(processedResult)
+        .map(
+          processedItem =>
+            processedItem.exportPath.includes('-all')
+              ? this.createWebFileAll(processedItem, processedResult) // all (parent)
+              : this.createWebFileIndividual(processedItem, processedResult) // individual file (child)
+        )
+    );
+  }
+
+  private async createWebFileAll(
+    processedItem: PartProcessedItem,
+    processedResult: PartProcessedResult
+  ) {
+    const {scssPath} = processedItem;
+    const outDir = scssPath.replace('.scss', '');
+    // main
+    const main = 'TODO: ...';
+    this.fileService.createFile(
+      resolve(outDir, 'index.html'),
+      this.webService.buildHTMLContent(main)
+    );
+  }
+
+  private async createWebFileIndividual(
+    processedItem: PartProcessedItem,
+    processedResult: PartProcessedResult
+  ) {
+    const {scssPath, scssContent} = processedItem;
+    const outDir = scssPath.replace('.scss', '');
     // html
     const html = 'TODO: ...';
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      this.webService.buildHTMLContent(html, menu)
+      this.webService.buildHTMLContent(html)
     );
     // css
-    const {css: cssBuffer} = await sassRender({data: scss});
+    const {css: cssBuffer} = await sassRender({data: scssContent});
     await this.fileService.createFile(
       resolve(outDir, 'index.css'),
       cssBuffer.toString()
@@ -344,7 +363,7 @@ export class BuildService {
     // js
     await this.fileService.createFile(
       resolve(outDir, 'index.js'),
-      'console.log("No JS available!")'
+      '// No JS available!'
     );
   }
 }
