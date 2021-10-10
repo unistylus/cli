@@ -4,21 +4,21 @@ import {render} from 'sass';
 const sassRender = promisify(render);
 
 import {FileService} from './file.service';
-import {
-  SoulGeneratingVariables,
-  ProcessPartsByGroupResult,
-} from './project.service';
+import {DownloadService} from './download.service';
+import {ProjectService, ProcessPartsByGroupResult} from './project.service';
 import {WebService} from './web.service';
 
 export class BuildService {
   constructor(
     private fileService: FileService,
+    private downloadService: DownloadService,
+    private projectService: ProjectService,
     private webService: WebService
   ) {}
 
-  async buildWeb(src: string, out: string, variables: SoulGeneratingVariables) {
-    const processedResult = await this.processParts(src, out, variables);
-    // save Unistylus part
+  async buildWeb(out: string) {
+    const processedResult = await this.processParts(out);
+    // save Unistylus parts
     await this.saveWebParts(processedResult);
     // save index.html
     await this.saveWebIndex(processedResult, out);
@@ -51,58 +51,49 @@ export class BuildService {
     );
   }
 
-  async processParts(
-    src: string,
-    out: string,
-    variables: SoulGeneratingVariables
-  ) {
+  async processParts(out: string) {
     const processedResult = [] as ProcessPartsByGroupResult[];
-    // content
-    const contentGroupResult = await this.processPartsByGroup(
-      'content',
-      src,
+    // reset.scss
+    const resetProcessedResult = await this.processPartByIndividual(
       out,
-      variables
+      'reset.scss',
+      'https://raw.githubusercontent.com/lamnhan/unistylus-material/main/src/reset.scss'
     );
-    processedResult.push(...contentGroupResult);
-    // form
-    const formGroupResult = await this.processPartsByGroup(
-      'form',
-      src,
+    processedResult.push(resetProcessedResult);
+    // core.scss
+    const coreProcessedResult = await this.processPartByIndividual(
       out,
-      variables
+      'core.scss',
+      'https://raw.githubusercontent.com/lamnhan/unistylus-bootstrap/main/src/core.scss'
     );
-    processedResult.push(...formGroupResult);
-    // components
-    const componentsGroupResult = await this.processPartsByGroup(
-      'components',
-      src,
-      out,
-      variables
+    processedResult.push(coreProcessedResult);
+    // by groups
+    const groups = (await this.fileService.listDir('src'))
+      .filter(path => path.indexOf('.scss') === -1)
+      .map(path => path.replace(/\\/g, '/').split('/').pop() as string);
+    await Promise.all(
+      groups.map(group =>
+        (async () => {
+          const contentGroupResult = await this.processPartsByGroup(group, out);
+          processedResult.push(...contentGroupResult);
+        })()
+      )
     );
-    processedResult.push(...componentsGroupResult);
-    // utilities
-    const utilitiesGroupResult = await this.processPartsByGroup(
-      'utilities',
-      src,
-      out,
-      variables
-    );
-    processedResult.push(...utilitiesGroupResult);
     // result
     return processedResult;
   }
 
-  private async processPartsByGroup(
-    partGroup: string,
-    src: string,
-    out: string,
-    variables: SoulGeneratingVariables
-  ) {
+  private async processPartsByGroup(partGroup: string, out: string) {
+    const {src = 'src', variables: customVariables = {}} =
+      await this.projectService.readDotUnistylusRCDotJson();
     const soulPath = resolve(src);
     const soulOutPath = resolve(out);
     const contentPath = resolve(soulPath, partGroup);
     const contentOutPath = resolve(soulOutPath, partGroup);
+    const variables = {
+      ...this.projectService.defaultVariables,
+      ...customVariables,
+    };
     // no source
     if (!(await this.fileService.exists(contentPath))) {
       return [];
@@ -320,6 +311,21 @@ export class BuildService {
     );
     // result
     return result;
+  }
+
+  private async processPartByIndividual(
+    out: string,
+    file: string,
+    remoteUrl: string
+  ) {
+    const scssContent = (await this.fileService.exists(resolve('src', file)))
+      ? await this.fileService.readText(resolve('src', file))
+      : await this.downloadService.fetchText(remoteUrl);
+    return {
+      exportPath: file,
+      scssPath: resolve(out, file),
+      scssContent,
+    } as ProcessPartsByGroupResult;
   }
 
   private async saveWebFile(outDir: string, menu: string, scss: string) {

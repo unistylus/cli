@@ -19,6 +19,11 @@ export class Lib {
     this.downloadService = new DownloadService(this.fileService);
     this.projectService = new ProjectService(this.fileService);
     this.webService = new WebService();
-    this.buildService = new BuildService(this.fileService, this.webService);
+    this.buildService = new BuildService(
+      this.fileService,
+      this.downloadService,
+      this.projectService,
+      this.webService
+    );
   }
 }

@@ -59,14 +59,12 @@ export class Cli {
   serveCommandDef: CommandDef = [
     ['serve', 's'],
     'Serve the soul for development.',
-    ['-p, --path [value]', 'Custom path to the project.'],
     ['-o, --out [value]', 'Custom output folder.'],
   ];
 
   buildCommandDef: CommandDef = [
     ['build', 'b'],
     'Build web.',
-    ['-p, --path [value]', 'Custom path to the project.'],
     ['-o, --out [value]', 'Custom output folder.'],
   ];
 
@@ -83,15 +81,8 @@ export class Cli {
     );
     this.cleanCommand = new CleanCommand(this.unistylusModule.fileService);
     this.copyCommand = new CopyCommand(this.unistylusModule.fileService);
-    this.serveCommand = new ServeCommand(
-      this.unistylusModule.fileService,
-      this.unistylusModule.projectService,
-      this.unistylusModule.buildService
-    );
-    this.buildCommand = new BuildCommand(
-      this.unistylusModule.projectService,
-      this.unistylusModule.buildService
-    );
+    this.serveCommand = new ServeCommand(this.unistylusModule.buildService);
+    this.buildCommand = new BuildCommand(this.unistylusModule.buildService);
   }
 
   getApp() {
@@ -158,12 +149,10 @@ export class Cli {
 
     // serve
     (() => {
-      const [[command, ...aliases], description, pathOpt, outOpt] =
-        this.serveCommandDef;
+      const [[command, ...aliases], description, outOpt] = this.serveCommandDef;
       commander
         .command(command)
         .aliases(aliases)
-        .option(...pathOpt)
         .option(...outOpt)
         .description(description)
         .action(options => this.serveCommand.run(options));
@@ -171,12 +160,10 @@ export class Cli {
 
     // build
     (() => {
-      const [[command, ...aliases], description, pathOpt, outOpt] =
-        this.buildCommandDef;
+      const [[command, ...aliases], description, outOpt] = this.buildCommandDef;
       commander
         .command(command)
         .aliases(aliases)
-        .option(...pathOpt)
         .option(...outOpt)
         .description(description)
         .action(options => this.buildCommand.run(options));

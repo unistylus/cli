@@ -52,13 +52,18 @@ export class DownloadService {
     });
   }
 
-  async downloadText(url: string, filePath: string) {
+  async fetchText(url: string) {
     const response = await axios({
       method: 'GET',
       url,
       responseType: 'text',
     });
-    await this.fileService.createFile(resolve(filePath), response.data);
+    return response.data;
+  }
+
+  async downloadText(url: string, filePath: string) {
+    const content = await this.fetchText(url);
+    await this.fileService.createFile(resolve(filePath), content);
   }
 
   unzip(filePath: string): Promise<void> {
