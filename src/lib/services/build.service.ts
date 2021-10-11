@@ -336,12 +336,12 @@ export class BuildService {
         }
       });
     const ulItems = Object.keys(recordItems)
-      .sort((a, b) => (a.includes('.scss') ? 1 : a > b ? 1 : -1))
+      .sort((a, b) => (a.includes('.scss') ? (a > b ? 1 : -1) : 1))
       .map(name => {
         const type = recordItems[name];
         return `
           <li class="${type}">
-            <a href="${name.replace('.scss', '')}">${name}</a>
+            <a href="/${name.replace('.scss', '')}">${name}</a>
           </li>
         `;
       })
@@ -385,13 +385,44 @@ export class BuildService {
     out: string
   ) {
     const builder = async (group: string) => {
+      const ulItems = processedResult
+        .filter(
+          item =>
+            !(item instanceof Array) &&
+            (item as PartProcessedItem).exportPath.includes(`${group}/`)
+        )
+        .sort((a, b) => {
+          const aPath = (a as PartProcessedItem).exportPath
+            .split('/')
+            .pop() as string;
+          const bPath = (b as PartProcessedItem).exportPath
+            .split('/')
+            .pop() as string;
+          return aPath > bPath ? 1 : aPath < bPath ? -1 : 0;
+        })
+        .map(item => {
+          const {exportPath} = item as PartProcessedItem;
+          const name = (exportPath.split('/').pop() as string).replace(
+            '-all',
+            ''
+          );
+          return `
+            <li>
+              <a href="/${exportPath.replace('.scss', '')}">${name}</a>
+            </li>
+          `;
+        })
+        .join('\n');
       // html
       const main = this.helperService.untabCodeBlock(`
-        <p><strong>TODO</strong>: List parts belong to the group: ${group}.</p>
+        <p>Browse group:</p>
+        <ul>
+          ${ulItems}
+        </ul>
       `);
       await this.fileService.createFile(
         resolve(out, group, 'index.html'),
-        await this.webService.buildHTMLContent(main)
+        await this.webService.buildHTMLContent(main, {titleSuffix: group})
       );
       // css
       await this.fileService.createFile(
@@ -426,15 +457,40 @@ export class BuildService {
     processedItem: PartProcessedItem,
     processedResult: PartProcessedResult
   ) {
-    const {scssPath} = processedItem;
+    const {exportPath, scssPath} = processedItem;
     const outDir = scssPath.replace('.scss', '');
+    // get index of the processed item
+    let itemIndex = 0;
+    processedResult.forEach((item, i) => {
+      if (
+        !(item instanceof Array) &&
+        item.exportPath === processedItem.exportPath
+      ) {
+        itemIndex = i;
+      }
+    });
+    // extract children
+    const childItems = processedResult[itemIndex + 1] as PartProcessedItem[];
+    const ulItems = (!(childItems instanceof Array) ? [] : childItems)
+      .map(item => {
+        const name = item.exportPath.split('/').pop() as string;
+        return `
+          <li><a href="/${item.exportPath}">${name}</a></li>
+        `;
+      })
+      .join('\n');
     // html
     const main = this.helperService.untabCodeBlock(`
-      <p><strong>TODO</strong>: List variations of this part.</p>
+      <p>Browse variations:</p>
+      <ul>
+        ${ulItems}
+      </ul>
     `);
     await this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      await this.webService.buildHTMLContent(main)
+      await this.webService.buildHTMLContent(main, {
+        titleSuffix: exportPath.replace('-all', ''),
+      })
     );
     // css
     await this.fileService.createFile(
@@ -456,7 +512,7 @@ export class BuildService {
     const outDir = scssPath.replace('.scss', '');
     // html
     const templatePath = await this.getTemplatePath(exportPath);
-    const html = !templatePath
+    const main = !templatePath
       ? '<p>No template found!</p>'
       : (await this.fileService.readText(templatePath)).replace(
           /\[class\]/g,
@@ -464,7 +520,7 @@ export class BuildService {
         );
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
-      await this.webService.buildHTMLContent(html, {
+      await this.webService.buildHTMLContent(main, {
         titleSuffix: exportPath,
         menu: '', // TODO: ...
       })
