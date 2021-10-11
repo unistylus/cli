@@ -320,17 +320,37 @@ export class BuildService {
     processedResult: PartProcessedResult,
     out: string
   ) {
+    const recordItems: Record<string, 'folder' | 'file'> = {};
+    processedResult
+      .filter(item => !(item instanceof Array))
+      .forEach(item => {
+        const {exportPath} = item as PartProcessedItem;
+        if (exportPath.includes('/')) {
+          const group = exportPath.split('/').shift() as string;
+          if (recordItems[group]) return;
+          recordItems[group] = 'folder';
+        } else {
+          const single = `${exportPath}.scss`;
+          if (recordItems[single]) return;
+          recordItems[single] = 'file';
+        }
+      });
+    const ulItems = Object.keys(recordItems)
+      .sort((a, b) => (a.includes('.scss') ? 1 : a > b ? 1 : -1))
+      .map(name => {
+        const type = recordItems[name];
+        return `
+          <li class="${type}">
+            <a href="${name.replace('.scss', '')}">${name}</a>
+          </li>
+        `;
+      })
+      .join('\n');
     // html
     const main = this.helperService.untabCodeBlock(`
-      <p><strong>TODO</strong>: Add group browsing, search all parts, ...</p>
-      <p>In the mean time, use the direct urls:</p>
+      <p>Browse parts:</p>
       <ul>
-        <li><a href="/core">/core</a></li>
-        <li><a href="/content/text-primary">/content/text-primary</a></li>
-        <li><a href="/form/form-control">/form/form-control</a></li>
-        <li><a href="/components/button-secondary">/components/button-secondary</a></li>
-        <li><a href="/utilities/background-success">/utilities/background-success</a></li>
-        <li>...</li>
+        ${ulItems}
       </ul>
     `);
     await this.fileService.createFile(
@@ -340,7 +360,18 @@ export class BuildService {
     // css
     await this.fileService.createFile(
       resolve(out, 'index.css'),
-      '// no styles'
+      this.helperService.untabCodeBlock(`
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      ul li {
+        margin-right: 1rem;
+      }
+      `)
     );
     // js
     await this.fileService.createFile(
