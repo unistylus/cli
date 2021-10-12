@@ -1,21 +1,30 @@
+import {resolve} from 'path';
+
 import {HelperService} from './helper.service';
+import {FileService} from './file.service';
 import {ProjectService} from './project.service';
 
 export interface BuildHTMLOptions {
   menu?: string;
   titleSuffix?: string;
 }
+
 export class WebService {
+  private cachedSkins?: string[];
+
   constructor(
     private helperService: HelperService,
+    private fileService: FileService,
     private projectService: ProjectService
   ) {}
 
   async buildHTMLContent(main: string, options?: BuildHTMLOptions) {
     const {menu, titleSuffix} = options || {};
-    const {name, description} = await this.projectService.readPackageDotJson();
+    const {name, version, description} =
+      await this.projectService.readPackageDotJson();
     const title = !titleSuffix ? name : `${name}/${titleSuffix}`;
     const cliVersion = require('../../../package.json').version;
+    const skinStylesheets = await this.getSkinStylesheets(name, version);
     const headerHtml = await this.getHeaderHtml();
     const footerHtml = await this.getFooterHtml();
     return this.helperService.untabCodeBlock(`
@@ -28,10 +37,11 @@ export class WebService {
         <link rel="icon" type="image/x-icon" href="https://unistylus.lamnhan.com/favicon.ico">
         <title>Unistylus: ${title}</title>
         <meta name="description" content="${description}">
-        <!-- Helper style -->
-        <link rel="stylesheet" href="https://unpkg.com/@unistylus/core@latest/css/skins/light-default.css">
-        <link rel="stylesheet" href="https://unpkg.com/${name}-css@latest/reset.css">
-        <link rel="stylesheet" href="https://unpkg.com/${name}-css@latest/core.css">
+        <!-- All skins -->
+        ${skinStylesheets}
+        <!-- Basic style -->
+        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/reset.css">
+        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/core.css">
         <!-- Global style -->
         <link rel="stylesheet" href="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/styles/index.css">
         <!-- Main style -->
@@ -62,10 +72,25 @@ export class WebService {
       name,
       repository: {url: githubRepo},
     } = await this.projectService.readPackageDotJson();
+    const optionItems = (await this.getSkins())
+      .map(name => {
+        const value = name.replace('-default', '');
+        const text =
+          value.charAt(0).toUpperCase() +
+          value.slice(1) +
+          (name.includes('-default') ? ' (default)' : '');
+        return `<option value="${value}">${text}</option>`;
+      })
+      .join('\n');
     return `
       <header class="uw_global-header">
         <div class="brand">
           <a href="/">${name}</a>
+        </div>
+        <div class="skins">
+          <select id="skin-selector">
+            ${optionItems}
+          </select>
         </div>
         <nav class="nav">
           <a href="/">Home</a>
@@ -86,5 +111,31 @@ export class WebService {
         </ul>
       </footer>
     `;
+  }
+
+  private async getSkins() {
+    if (this.cachedSkins) {
+      return this.cachedSkins;
+    }
+    const items = (
+      await this.fileService.listDir(resolve('src', 'skins', 'properties'))
+    ).map(name => name.replace(/_|(\.scss)/g, ''));
+    const defaultSkinName = items.includes('light') ? 'light' : items[0];
+    this.cachedSkins = items
+      .map(name => (name === defaultSkinName ? `${name}-default` : name))
+      .sort(name => (name.includes('-default') ? -1 : 1));
+    return this.cachedSkins;
+  }
+
+  private async getSkinStylesheets(
+    packageName: string,
+    packageVersion: string
+  ) {
+    return (await this.getSkins())
+      .map(
+        name =>
+          `<link rel="stylesheet" href="https://unpkg.com/${packageName}-css@${packageVersion}/skins/${name}.css">`
+      )
+      .join('\n');
   }
 }
