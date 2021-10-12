@@ -526,7 +526,10 @@ export class BuildService {
       })
     );
     // css
-    const {css: cssBuffer} = await sassRender({data: scssContent});
+    const {css: cssBuffer} = await sassRender({
+      data: scssContent,
+      includePaths: ['src', 'node_modules'],
+    });
     await this.fileService.createFile(
       resolve(outDir, 'index.css'),
       cssBuffer.toString()
