@@ -5,6 +5,7 @@ import {FileService} from './file.service';
 export interface DotUnistylusRCDotJson {
   out?: string;
   copies?: string[];
+  excludes?: string[];
   variables?: SoulGeneratingVariables;
   webCopies?: string[];
 }

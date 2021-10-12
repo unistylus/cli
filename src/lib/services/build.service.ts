@@ -539,9 +539,13 @@ export class BuildService {
   }
 
   private async getPartGroups() {
+    const {excludes: customExcludes = []} =
+      await this.projectService.readDotUnistylusRCDotJson();
+    const excludes = [...customExcludes, 'skins'];
     return (await this.fileService.listDir('src'))
       .filter(path => path.indexOf('.scss') === -1)
-      .map(path => path.replace(/\\/g, '/').split('/').pop() as string);
+      .map(path => path.replace(/\\/g, '/').split('/').pop() as string)
+      .filter(group => !excludes.includes(group));
   }
 
   private getTemplatePath(exportPath: string) {
