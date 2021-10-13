@@ -6,6 +6,7 @@ const sassRender = promisify(render);
 import {HelperService} from './helper.service';
 import {FileService} from './file.service';
 import {DownloadService} from './download.service';
+import {MarkdownService} from './markdown.service';
 import {
   ProjectService,
   PartProcessedResult,
@@ -18,6 +19,7 @@ export class BuildService {
     private helperService: HelperService,
     private fileService: FileService,
     private downloadService: DownloadService,
+    private markdownService: MarkdownService,
     private projectService: ProjectService,
     private webService: WebService
   ) {}
@@ -348,10 +350,14 @@ export class BuildService {
       .join('\n');
     // html
     const main = this.helperService.untabCodeBlock(`
-      <p>Browse parts:</p>
-      <ul>
-        ${ulItems}
-      </ul>
+      <section class="section">
+        <div class="head">Browse groups</div>
+        <div class="body">
+          <ul>
+            ${ulItems}
+          </ul>
+        </div>
+      </section>      
     `);
     await this.fileService.createFile(
       resolve(out, 'index.html'),
@@ -415,10 +421,14 @@ export class BuildService {
         .join('\n');
       // html
       const main = this.helperService.untabCodeBlock(`
-        <p>Browse group:</p>
-        <ul>
-          ${ulItems}
-        </ul>
+        <section class="section">
+          <div class="head">Browse parts</div>
+          <div class="body">
+            <ul>
+              ${ulItems}
+            </ul>
+          </div>
+        </section>   
       `);
       await this.fileService.createFile(
         resolve(out, group, 'index.html'),
@@ -479,12 +489,23 @@ export class BuildService {
         `;
       })
       .join('\n');
+    const usageHtml = await this.getUsage(exportPath);
     // html
     const main = this.helperService.untabCodeBlock(`
-      <p>Browse variations:</p>
-      <ul>
-        ${ulItems}
-      </ul>
+      <section class="section">
+        <div class="head">Part variants</div>
+        <div class="body">
+          <ul>
+            ${ulItems}
+          </ul>
+        </div>
+      </section>
+      <section class="section">
+        <div class="head">Usage - <strong>NOT RECOMMENED</strong></div>
+        <div class="body">
+          ${usageHtml}
+        </div>
+      </section>
     `);
     await this.fileService.createFile(
       resolve(outDir, 'index.html'),
@@ -512,17 +533,33 @@ export class BuildService {
     const outDir = scssPath.replace('.scss', '');
     // html
     const templatePath = await this.getTemplatePath(exportPath);
-    const main = !templatePath
-      ? '<p>No template found!</p>'
+    const templateHTML = !templatePath
+      ? '<p>No preview available!</p>'
       : (await this.fileService.readText(templatePath)).replace(
           /\[class\]/g,
           exportPath.split('/').pop() as string
         );
+    const usageHtml = await this.getUsage(exportPath, templateHTML);
+    const main = this.helperService.untabCodeBlock(`
+      <section class="section preview">
+        <div class="head">Preview</div>
+        <div class="body">
+          <div class="inner">
+            ${templateHTML}
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="head">Usage</div>
+        <div class="body">
+          ${usageHtml}
+        </div>
+      </section>
+    `);
     this.fileService.createFile(
       resolve(outDir, 'index.html'),
       await this.webService.buildHTMLContent(main, {
         titleSuffix: exportPath,
-        menu: '', // TODO: ...
       })
     );
     // css
@@ -577,5 +614,41 @@ export class BuildService {
     });
     // check template
     return this.fileService.anyExists(posibleTemplatePaths);
+  }
+
+  private async getUsage(exportPath: string, html?: string) {
+    const {name, version} = await this.projectService.readPackageDotJson();
+    return this.markdownService.render(
+      this.helperService.untabCodeBlock(
+        `
+        Step 1: **Import the style**
+
+        - Using the CLI:
+
+        \`\`\`bash
+        unistylus add "${exportPath}"
+        \`\`\`
+
+        - Or, include SCSS:
+
+        \`\`\`scss
+        @use '${name}/${exportPath}';
+        \`\`\`
+
+        - Or, include CSS:
+
+        \`\`\`html
+        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/${exportPath}.css">
+        \`\`\`
+
+        Step 2: **Use the class**
+
+        \`\`\`html
+        ${html || '<!-- See the list of classes above. -->'}
+        \`\`\`
+        `,
+        8
+      )
+    );
   }
 }

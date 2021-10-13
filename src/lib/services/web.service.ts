@@ -5,7 +5,6 @@ import {FileService} from './file.service';
 import {ProjectService} from './project.service';
 
 export interface BuildHTMLOptions {
-  menu?: string;
   titleSuffix?: string;
 }
 
@@ -19,7 +18,7 @@ export class WebService {
   ) {}
 
   async buildHTMLContent(main: string, options?: BuildHTMLOptions) {
-    const {menu, titleSuffix} = options || {};
+    const {titleSuffix} = options || {};
     const {name, version, description} =
       await this.projectService.readPackageDotJson();
     const title = !titleSuffix ? name : `${name}/${titleSuffix}`;
@@ -51,10 +50,9 @@ export class WebService {
 
         ${headerHtml}
 
-        <section class="uw_global-major">
-          ${!menu ? '' : `<sidebar class="uw_global-menu">${menu}</sidebar>`}
-          <main class="uw_global-content">${main}</main>
-        </section>
+        <main class="uw_global-major">
+          ${main}
+        </main>
         
         ${footerHtml}
 
@@ -75,10 +73,7 @@ export class WebService {
     const optionItems = (await this.getSkins())
       .map(name => {
         const value = name.replace('-default', '');
-        const text =
-          value.charAt(0).toUpperCase() +
-          value.slice(1) +
-          (name.includes('-default') ? ' (default)' : '');
+        const text = value.charAt(0).toUpperCase() + value.slice(1);
         return `<option value="${value}">${text}</option>`;
       })
       .join('\n');
@@ -89,6 +84,7 @@ export class WebService {
         </div>
         <div class="skins">
           <select id="skin-selector">
+            <option value="0" disabled>Select a skin</option>
             ${optionItems}
           </select>
         </div>
