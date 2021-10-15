@@ -20,24 +20,17 @@ export class Cli {
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
   /**
-   * @param name - The soul name
+   * @param name - The collection name
    * @param description? - The description
    */
   newCommandDef: CommandDef = [
     ['new <name> [description]', 'n'],
-    'Create a new soul.',
+    'Create a new collection.',
     ['-i, --skip-install', 'Do not install dependency packages.'],
     ['-g, --skip-git', 'Do not initialize a git repository.'],
   ];
 
-  /**
-   * @param path? - Custom path to the project
-   */
-  generateCommandDef: CommandDef = [
-    ['generate [path]', 'g'],
-    'Generate content.',
-    ['-a, --api', 'Output the API.'],
-  ];
+  generateCommandDef: CommandDef = [['generate', 'g'], 'Generate content.'];
 
   cleanCommandDef: CommandDef = [
     ['clean <path>', 'del', 'd'],
@@ -58,7 +51,7 @@ export class Cli {
 
   serveCommandDef: CommandDef = [
     ['serve', 's'],
-    'Serve the soul for development.',
+    'Serve the collection for development.',
     ['-o, --out [value]', 'Custom output folder.'],
   ];
 
@@ -66,6 +59,7 @@ export class Cli {
     ['build', 'b'],
     'Build web.',
     ['-o, --out [value]', 'Custom output folder.'],
+    ['-a, --api', 'Output the API.'],
   ];
 
   constructor() {
@@ -76,8 +70,8 @@ export class Cli {
     );
     this.generateCommand = new GenerateCommand(
       this.unistylusModule.fileService,
-      this.unistylusModule.downloadService,
-      this.unistylusModule.projectService
+      this.unistylusModule.projectService,
+      this.unistylusModule.buildService
     );
     this.cleanCommand = new CleanCommand(this.unistylusModule.fileService);
     this.copyCommand = new CopyCommand(this.unistylusModule.fileService);
@@ -119,14 +113,12 @@ export class Cli {
 
     // generate
     (() => {
-      const [[command, ...aliases], description, apiOpt] =
-        this.generateCommandDef;
+      const [[command, ...aliases], description] = this.generateCommandDef;
       commander
         .command(command)
         .aliases(aliases)
         .description(description)
-        .option(...apiOpt)
-        .action((path, options) => this.generateCommand.run(path, options));
+        .action(() => this.generateCommand.run());
     })();
 
     // copy
@@ -166,11 +158,13 @@ export class Cli {
 
     // build
     (() => {
-      const [[command, ...aliases], description, outOpt] = this.buildCommandDef;
+      const [[command, ...aliases], description, outOpt, apiOpt] =
+        this.buildCommandDef;
       commander
         .command(command)
         .aliases(aliases)
         .option(...outOpt)
+        .option(...apiOpt)
         .description(description)
         .action(options => this.buildCommand.run(options));
     })();

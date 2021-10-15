@@ -6,6 +6,7 @@ import {BuildService} from '../../lib/services/build.service';
 
 interface BuildCommandOptions {
   out?: string;
+  api?: boolean;
 }
 
 export class BuildCommand {
@@ -19,7 +20,7 @@ export class BuildCommand {
     // clear out
     await this.fileService.clearDir(resolve(out));
     // build web
-    await this.buildService.buildWeb(out);
+    await this.buildService.buildWeb(out, options.api);
     // done
     console.log(OK + 'Web saved to: ' + out);
   }

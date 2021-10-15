@@ -24,15 +24,40 @@ export class BuildService {
     private webService: WebService
   ) {}
 
-  async buildWeb(out: string) {
+  async buildSass(out: string) {
+    const {copies} = await this.projectService.readDotUnistylusRCDotJson();
+    const processedResult = await this.processParts(out);
+    // save parts
+    await this.saveScssParts(processedResult);
+    // copy resources
+    if (copies) {
+      await this.fileService.copies(copies, out, 'src');
+    }
+  }
+
+  async buildWeb(out: string, withAPI = false) {
     const {webCopies} = await this.projectService.readDotUnistylusRCDotJson();
     const processedResult = await this.processParts(out);
-    // save Unistylus parts
+    // save parts
     await this.saveWebParts(processedResult);
     // save index.html
     await this.saveWebIndex(processedResult, out);
     // save group indexes
     await this.saveWebGroupIndexes(processedResult, out);
+    // save api
+    if (withAPI) {
+      const apiList = processedResult.map(item => {
+        if (!(item instanceof Array)) {
+          return item.exportPath;
+        }
+        return item.map(subItem => subItem.exportPath);
+      });
+      await this.fileService.createJson(
+        resolve(out, 'api.json'),
+        apiList,
+        true
+      );
+    }
     // copies resources
     if (webCopies) {
       await this.fileService.copies(webCopies, out);
@@ -88,10 +113,10 @@ export class BuildService {
   private async processPartsByGroup(partGroup: string, out: string) {
     const {variables: customVariables = {}} =
       await this.projectService.readDotUnistylusRCDotJson();
-    const soulPath = resolve('src');
-    const soulOutPath = resolve(out);
-    const contentPath = resolve(soulPath, partGroup);
-    const contentOutPath = resolve(soulOutPath, partGroup);
+    const scssPath = resolve('src');
+    const scssOutPath = resolve(out);
+    const contentPath = resolve(scssPath, partGroup);
+    const contentOutPath = resolve(scssOutPath, partGroup);
     const variables = {
       ...this.projectService.defaultVariables,
       ...customVariables,
@@ -316,6 +341,19 @@ export class BuildService {
     );
     // result
     return result;
+  }
+
+  private async saveScssParts(processedResult: PartProcessedResult) {
+    await Promise.all(
+      this.helperService
+        .flatNestedArray<PartProcessedItem>(processedResult)
+        .map(processedItem =>
+          this.fileService.createFile(
+            processedItem.scssPath,
+            processedItem.scssContent
+          )
+        )
+    );
   }
 
   private async saveWebIndex(

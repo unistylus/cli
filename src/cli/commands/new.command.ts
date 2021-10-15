@@ -20,7 +20,7 @@ export class NewCommand {
 
   async run(
     name: string,
-    description = 'New Unistylus soul',
+    description = 'New Unistylus collection',
     commandOptions: NewCommandOptions
   ) {
     const resourceUrl =
@@ -43,7 +43,9 @@ export class NewCommand {
       execSync('git init', {stdio: 'inherit', cwd: projectPath});
     }
     // result
-    console.log(OK + 'New Unistylus soul saved to: ' + blue(validProjectName));
+    console.log(
+      OK + 'New Unistylus collection saved to: ' + blue(validProjectName)
+    );
   }
 
   async create(resourceUrl: string, projectPath: string) {
@@ -73,7 +75,7 @@ export class NewCommand {
     await this.fileService.changeContent(
       packageCSSPath,
       {
-        'The Unistylus Bootstrap soul': description,
+        'The Unistylus Bootstrap collection': description,
         bootstrap: name,
         Bootstrap: nameCapitalized,
       },
@@ -87,7 +89,7 @@ export class NewCommand {
     await this.fileService.changeContent(
       packagePath,
       {
-        'The Unistylus Bootstrap soul': description,
+        'The Unistylus Bootstrap collection': description,
         bootstrap: name,
         Bootstrap: nameCapitalized,
       },

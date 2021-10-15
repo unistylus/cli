@@ -46,7 +46,7 @@ Add to a project:
 unistylus init
 ```
 
-Add your own soul `src/`, edit the `.unistylusrc.json`.
+Add your own collection `src/`, edit the `.unistylusrc.json`.
 
 Generate distribution:
 
