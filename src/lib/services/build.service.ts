@@ -24,11 +24,11 @@ export class BuildService {
     private webService: WebService
   ) {}
 
-  async buildSass(out: string) {
+  async buildSource(out: string) {
     const {copies} = await this.projectService.readDotUnistylusRCDotJson();
     const processedResult = await this.processParts(out);
     // save parts
-    await this.saveScssParts(processedResult);
+    await this.saveSourceParts(processedResult);
     // copy resources
     if (copies) {
       await this.fileService.copies(copies, out, 'src');
@@ -107,6 +107,7 @@ export class BuildService {
       exportPath: file.replace('.scss', ''),
       scssPath: resolve(out, file),
       scssContent,
+      ...(await this.getTsData(file, out)),
     } as PartProcessedItem;
   }
 
@@ -127,7 +128,9 @@ export class BuildService {
     }
     // if there is a source
     const result = [] as PartProcessedResult;
-    const names = await this.fileService.listDir(contentPath);
+    const names = (await this.fileService.listDir(contentPath)).filter(
+      name => !name.includes('.ts')
+    );
     await Promise.all(
       names.map(async name => {
         // I - a file
@@ -138,6 +141,7 @@ export class BuildService {
             scssContent: await this.fileService.readText(
               resolve(contentPath, name)
             ),
+            ...(await this.getTsData(`${partGroup}/${name}`, contentOutPath)),
           });
         }
         // II - a folder
@@ -147,7 +151,7 @@ export class BuildService {
               contentPath + '/' + name
             );
             // II.1 - single definition
-            if (childNames.length === 1 && childNames[0] === `${name}.scss`) {
+            if (childNames[0] === `${name}.scss`) {
               // save main
               const baseContent = await this.fileService.readText(
                 resolve(contentPath, name, `${name}.scss`)
@@ -156,6 +160,10 @@ export class BuildService {
                 exportPath: `${partGroup}/${name}`,
                 scssPath: resolve(contentOutPath, `${name}.scss`),
                 scssContent: baseContent.replace('[base]', `.${name}`),
+                ...(await this.getTsData(
+                  `${partGroup}/${name}/${name}`,
+                  contentOutPath
+                )),
               });
             }
             // II.2 - with variations
@@ -170,6 +178,10 @@ export class BuildService {
                   exportPath: name,
                   scssPath: resolve(contentOutPath, `${name}.scss`),
                   scssContent: defaultContent.replace('[default]', `.${name}`),
+                  ...(await this.getTsData(
+                    `${partGroup}/${name}/${name}`,
+                    contentOutPath
+                  )),
                 });
               }
               // II.2.B - other variants
@@ -343,16 +355,22 @@ export class BuildService {
     return result;
   }
 
-  private async saveScssParts(processedResult: PartProcessedResult) {
+  private async saveSourceParts(processedResult: PartProcessedResult) {
     await Promise.all(
       this.helperService
         .flatNestedArray<PartProcessedItem>(processedResult)
-        .map(processedItem =>
-          this.fileService.createFile(
+        .map(async processedItem => {
+          await this.fileService.createFile(
             processedItem.scssPath,
             processedItem.scssContent
-          )
-        )
+          );
+          if (processedItem.tsPath && processedItem.tsContent) {
+            await this.fileService.createFile(
+              processedItem.tsPath,
+              processedItem.tsContent
+            );
+          }
+        })
     );
   }
 
@@ -567,7 +585,7 @@ export class BuildService {
     processedItem: PartProcessedItem,
     processedResult: PartProcessedResult
   ) {
-    const {exportPath, scssPath, scssContent} = processedItem;
+    const {exportPath, scssPath, scssContent, tsContent} = processedItem;
     const outDir = scssPath.replace('.scss', '');
     // html
     const templatePath = await this.getTemplatePath(exportPath);
@@ -610,6 +628,9 @@ export class BuildService {
       cssBuffer.toString()
     );
     // js
+    if (tsContent) {
+      // TODO: render ts if there is ts content
+    }
     await this.fileService.createFile(
       resolve(outDir, 'index.js'),
       '// No JS available!'
@@ -621,7 +642,7 @@ export class BuildService {
       await this.projectService.readDotUnistylusRCDotJson();
     const excludes = [...customExcludes, 'skins'];
     return (await this.fileService.listDir('src'))
-      .filter(path => path.indexOf('.scss') === -1)
+      .filter(path => !path.includes('.scss') && !path.includes('.ts'))
       .map(path => path.replace(/\\/g, '/').split('/').pop() as string)
       .filter(group => !excludes.includes(group));
   }
@@ -688,5 +709,20 @@ export class BuildService {
         8
       )
     );
+  }
+
+  private async getTsData(fileOrFolder: string, outPath: string) {
+    let tsData: undefined | {tsPath: string; tsContent: string};
+    const tsSrcPath = resolve('src', fileOrFolder.replace('.scss', '') + '.ts');
+    if (await this.fileService.exists(tsSrcPath)) {
+      const pathSegments = fileOrFolder.split('/');
+      const tsLocation = pathSegments.pop() as string;
+      tsData = {
+        tsPath: resolve(outPath, tsLocation.replace('.scss', '') + '.ts'),
+        tsContent: await this.fileService.readText(tsSrcPath),
+      };
+      console.log(tsData);
+    }
+    return tsData;
   }
 }

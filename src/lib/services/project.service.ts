@@ -48,6 +48,8 @@ export interface PartProcessedItem {
   exportPath: string;
   scssPath: string;
   scssContent: string;
+  tsPath?: string;
+  tsContent?: string;
 }
 
 export class ProjectService {

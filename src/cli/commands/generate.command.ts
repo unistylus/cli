@@ -20,7 +20,7 @@ export class GenerateCommand {
     // clear out
     await this.fileService.clearDir(resolve(out));
     // copy resources
-    await this.buildService.buildSass(out);
+    await this.buildService.buildSource(out);
     // result
     console.log(OK + 'Collection generated to: ' + blue(out));
   }
