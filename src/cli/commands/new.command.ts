@@ -84,6 +84,20 @@ export class NewCommand {
     await this.fileService.changeContent(packageCSSPath, content =>
       content.replace(/"version(.*?),/g, '"version": "0.0.1",')
     );
+    // package-js.json
+    const packageJSPath = resolve(projectPath, 'package-js.json');
+    await this.fileService.changeContent(
+      packageJSPath,
+      {
+        'The Unistylus Bootstrap collection': description,
+        bootstrap: name,
+        Bootstrap: nameCapitalized,
+      },
+      true
+    );
+    await this.fileService.changeContent(packageJSPath, content =>
+      content.replace(/"version(.*?),/g, '"version": "0.0.1",')
+    );
     // package.json
     const packagePath = resolve(projectPath, 'package.json');
     await this.fileService.changeContent(
@@ -97,6 +111,15 @@ export class NewCommand {
     );
     await this.fileService.changeContent(packagePath, content =>
       content.replace(/"version(.*?),/g, '"version": "0.0.1",')
+    );
+    // tsconfig.prod.json
+    await this.fileService.changeContent(
+      resolve(projectPath, 'tsconfig.prod.json'),
+      {
+        bootstrap: name,
+        Bootstrap: nameCapitalized,
+      },
+      true
     );
     // README.md
     await this.fileService.changeContent(
