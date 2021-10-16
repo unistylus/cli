@@ -7,6 +7,7 @@ export * from './cli/commands/clean.command';
 export * from './cli/commands/copy.command';
 export * from './cli/commands/serve.command';
 export * from './cli/commands/build.command';
+export * from './cli/commands/js.command';
 
 export * from './lib/services/helper.service';
 export * from './lib/services/message.service';

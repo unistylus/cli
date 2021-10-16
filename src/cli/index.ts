@@ -7,6 +7,7 @@ import {CleanCommand} from './commands/clean.command';
 import {CopyCommand} from './commands/copy.command';
 import {ServeCommand} from './commands/serve.command';
 import {BuildCommand} from './commands/build.command';
+import {JsCommand} from './commands/js.command';
 
 export class Cli {
   private unistylusModule: UnistylusModule;
@@ -16,6 +17,7 @@ export class Cli {
   copyCommand: CopyCommand;
   serveCommand: ServeCommand;
   buildCommand: BuildCommand;
+  jsCommand: JsCommand;
 
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
@@ -62,6 +64,8 @@ export class Cli {
     ['-a, --api', 'Output the API.'],
   ];
 
+  jsCommandDef: CommandDef = ['js', 'Build js package.'];
+
   constructor() {
     this.unistylusModule = new UnistylusModule();
     this.newCommand = new NewCommand(
@@ -82,6 +86,10 @@ export class Cli {
     this.buildCommand = new BuildCommand(
       this.unistylusModule.fileService,
       this.unistylusModule.buildService
+    );
+    this.jsCommand = new JsCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.projectService
     );
   }
 
@@ -167,6 +175,15 @@ export class Cli {
         .option(...apiOpt)
         .description(description)
         .action(options => this.buildCommand.run(options));
+    })();
+
+    // js
+    (() => {
+      const [command, description] = this.jsCommandDef;
+      commander
+        .command(command as string)
+        .description(description)
+        .action(() => this.jsCommand.run());
     })();
 
     // help
