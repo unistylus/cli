@@ -73,10 +73,12 @@
 						<li><a href="#getting-started">Getting started</a></li>
 						<li><a href="#cli-command-overview">Command overview</a></li>
 						<li><a href="#cli-command-reference">Command reference</a><ul>
+								<li><a href="#command-build"><code>build</code></a></li>
 								<li><a href="#command-clean"><code>clean</code></a></li>
 								<li><a href="#command-copy"><code>copy</code></a></li>
 								<li><a href="#command-generate"><code>generate</code></a></li>
-								<li><a href="#command-init"><code>init</code></a></li>
+								<li><a href="#command-new"><code>new</code></a></li>
+								<li><a href="#command-serve"><code>serve</code></a></li>
 								<li><a href="#command-help"><code>help</code></a></li>
 								<li><a href="#command-*"><code>*</code></a></li>
 							</ul>
@@ -101,7 +103,7 @@
 					<p>Add to a project:</p>
 					<pre><code class="language-sh">unistylus init
 </code></pre>
-					<p>Add your own soul <code>src/</code>, edit the <code>.unistylusrc.json</code>.</p>
+					<p>Add your own collection <code>src/</code>, edit the <code>.unistylusrc.json</code>.</p>
 					<p>Generate distribution:</p>
 					<pre><code class="language-sh">unistylus generate
 </code></pre>
@@ -112,15 +114,28 @@
 					</a></h2>
 					<p>Tools for the Unistylus framework.</p>
 					<ul>
+						<li><a href="#command-build"><code>unistylus build|b --out [value]</code></a></li>
 						<li><a href="#command-clean"><code>unistylus clean|del|d &lt;path&gt;</code></a></li>
 						<li><a href="#command-copy"><code>unistylus copy|c [items...] --src [value] --out [value] --clean</code></a></li>
 						<li><a href="#command-generate"><code>unistylus generate|g [path] --api</code></a></li>
-						<li><a href="#command-init"><code>unistylus init|i [path]</code></a></li>
+						<li><a href="#command-new"><code>unistylus new|n &lt;name&gt; [description] --skip-install --skip-git</code></a></li>
+						<li><a href="#command-serve"><code>unistylus serve|s --out [value]</code></a></li>
 						<li><a href="#command-help"><code>unistylus help</code></a></li>
 						<li><a href="#command-*"><code>unistylus *</code></a></li>
 					</ul>
 					<h2><a name="cli-command-reference"><p>Command reference</p>
 					</a></h2>
+					<h3><a name="command-build"><p><code>build</code></p>
+					</a></h3>
+					<p>Build web.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus build --out [value]
+unistylus b --out [value]
+</code></pre>
+					<p><strong>Options:</strong></p>
+					<ul>
+						<li><code>-o, --out [value]</code>: Custom output folder.</li>
+					</ul>
 					<h3><a name="command-clean"><p><code>clean</code></p>
 					</a></h3>
 					<p>Clean a folder.</p>
@@ -165,16 +180,33 @@ unistylus g [path] --api
 					<ul>
 						<li><code>-a, --api</code>: Output the API.</li>
 					</ul>
-					<h3><a name="command-init"><p><code>init</code></p>
+					<h3><a name="command-new"><p><code>new</code></p>
 					</a></h3>
-					<p>Add Unistylus tools to a project.</p>
+					<p>Create a new soul.</p>
 					<p><strong>Usage:</strong></p>
-					<pre><code class="language-sh">unistylus init [path]
-unistylus i [path]
+					<pre><code class="language-sh">unistylus new &lt;name&gt; [description] --skip-install --skip-git
+unistylus n &lt;name&gt; [description] --skip-install --skip-git
 </code></pre>
 					<p><strong>Parameters:</strong></p>
 					<ul>
-						<li><code>[path]</code>: Custom path to the project</li>
+						<li><code>&lt;name&gt;</code>: The soul name</li>
+						<li><code>[description]</code>: The description</li>
+					</ul>
+					<p><strong>Options:</strong></p>
+					<ul>
+						<li><code>-i, --skip-install</code>: Do not install dependency packages.</li>
+						<li><code>-g, --skip-git</code>: Do not initialize a git repository.</li>
+					</ul>
+					<h3><a name="command-serve"><p><code>serve</code></p>
+					</a></h3>
+					<p>Serve the soul for development.</p>
+					<p><strong>Usage:</strong></p>
+					<pre><code class="language-sh">unistylus serve --out [value]
+unistylus s --out [value]
+</code></pre>
+					<p><strong>Options:</strong></p>
+					<ul>
+						<li><code>-o, --out [value]</code>: Custom output folder.</li>
 					</ul>
 					<h3><a name="command-help"><p><code>help</code></p>
 					</a></h3>
@@ -235,7 +267,13 @@ unistylus i [path]
 						<a href="classes/helperservice.html" class="tsd-kind-icon">Helper<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/jscommand.html" class="tsd-kind-icon">Js<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/lib.html" class="tsd-kind-icon">Lib</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/markdownservice.html" class="tsd-kind-icon">Markdown<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/messageservice.html" class="tsd-kind-icon">Message<wbr>Service</a>
@@ -263,9 +301,6 @@ unistylus i [path]
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/dotunistylusrcdotjson.html" class="tsd-kind-icon">Dot<wbr>UnistylusRCDot<wbr>Json</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/generateoptions.html" class="tsd-kind-icon">Generate<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/newcommandoptions.html" class="tsd-kind-icon">New<wbr>Command<wbr>Options</a>
@@ -305,6 +340,9 @@ unistylus i [path]
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#cliapp" class="tsd-kind-icon">cli<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#loadlanguages" class="tsd-kind-icon">load<wbr>Languages</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#sassrender" class="tsd-kind-icon">sass<wbr>Render</a>

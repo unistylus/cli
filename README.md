@@ -15,6 +15,7 @@
   - [`clean`](#command-clean)
   - [`copy`](#command-copy)
   - [`generate`](#command-generate)
+  - [`js`](#command-js)
   - [`new`](#command-new)
   - [`serve`](#command-serve)
   - [`help`](#command-help)
@@ -65,10 +66,11 @@ Next, see the homepage: [https://unistylus.lamnhan.com](https://unistylus.lamnha
 
 Tools for the Unistylus framework.
 
-- [`unistylus build|b --out [value]`](#command-build)
+- [`unistylus build|b --out [value] --api`](#command-build)
 - [`unistylus clean|del|d <path>`](#command-clean)
 - [`unistylus copy|c [items...] --src [value] --out [value] --clean`](#command-copy)
-- [`unistylus generate|g [path] --api`](#command-generate)
+- [`unistylus generate|g`](#command-generate)
+- [`unistylus js`](#command-js)
 - [`unistylus new|n <name> [description] --skip-install --skip-git`](#command-new)
 - [`unistylus serve|s --out [value]`](#command-serve)
 - [`unistylus help`](#command-help)
@@ -85,13 +87,14 @@ Build web.
 **Usage:**
 
 ```sh
-unistylus build --out [value]
-unistylus b --out [value]
+unistylus build --out [value] --api
+unistylus b --out [value] --api
 ```
 
 **Options:**
 
 - `-o, --out [value]`: Custom output folder.
+- `-a, --api`: Output the API.
 
 <h3><a name="command-clean"><p><code>clean</code></p>
 </a></h3>
@@ -140,22 +143,25 @@ Generate content.
 **Usage:**
 
 ```sh
-unistylus generate [path] --api
-unistylus g [path] --api
+unistylus generate
+unistylus g
 ```
 
-**Parameters:**
+<h3><a name="command-js"><p><code>js</code></p>
+</a></h3>
 
-- `[path]`: Custom path to the project
+Build js package.
 
-**Options:**
+**Usage:**
 
-- `-a, --api`: Output the API.
+```sh
+unistylus js
+```
 
 <h3><a name="command-new"><p><code>new</code></p>
 </a></h3>
 
-Create a new soul.
+Create a new collection.
 
 **Usage:**
 
@@ -166,7 +172,7 @@ unistylus n <name> [description] --skip-install --skip-git
 
 **Parameters:**
 
-- `<name>`: The soul name
+- `<name>`: The collection name
 - `[description]`: The description
 
 **Options:**
@@ -177,7 +183,7 @@ unistylus n <name> [description] --skip-install --skip-git
 <h3><a name="command-serve"><p><code>serve</code></p>
 </a></h3>
 
-Serve the soul for development.
+Serve the collection for development.
 
 **Usage:**
 

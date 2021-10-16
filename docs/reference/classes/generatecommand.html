@@ -85,8 +85,6 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="generatecommand.html#createparts" class="tsd-kind-icon">create<wbr>Parts</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="generatecommand.html#generatesoul" class="tsd-kind-icon">generate<wbr>Soul</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="generatecommand.html#run" class="tsd-kind-icon">run</a></li>
 							</ul>
 						</section>
@@ -99,13 +97,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Generate<wbr>Command<span class="tsd-signature-symbol">(</span>fileService<span class="tsd-signature-symbol">: </span><a href="fileservice.html" class="tsd-signature-type">FileService</a>, downloadService<span class="tsd-signature-symbol">: </span><a href="downloadservice.html" class="tsd-signature-type">DownloadService</a>, projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="generatecommand.html" class="tsd-signature-type">GenerateCommand</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Generate<wbr>Command<span class="tsd-signature-symbol">(</span>fileService<span class="tsd-signature-symbol">: </span><a href="fileservice.html" class="tsd-signature-type">FileService</a>, projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, buildService<span class="tsd-signature-symbol">: </span><a href="buildservice.html" class="tsd-signature-type">BuildService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="generatecommand.html" class="tsd-signature-type">GenerateCommand</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/generate.command.ts#L16">src/cli/commands/generate.command.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/b8244fe/src/cli/commands/generate.command.ts#L9">src/cli/commands/generate.command.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -114,10 +112,10 @@
 									<h5>fileService: <a href="fileservice.html" class="tsd-signature-type">FileService</a></h5>
 								</li>
 								<li>
-									<h5>downloadService: <a href="downloadservice.html" class="tsd-signature-type">DownloadService</a></h5>
+									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
 								</li>
 								<li>
-									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
+									<h5>buildService: <a href="buildservice.html" class="tsd-signature-type">BuildService</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="generatecommand.html" class="tsd-signature-type">GenerateCommand</a></h4>
@@ -128,88 +126,18 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="createparts" class="tsd-anchor"></a>
-					<h3>create<wbr>Parts</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Parts<span class="tsd-signature-symbol">(</span>partGroup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, src<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, out<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, variables<span class="tsd-signature-symbol">: </span><a href="../interfaces/soulgeneratingvariables.html" class="tsd-signature-type">SoulGeneratingVariables</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/generate.command.ts#L132">src/cli/commands/generate.command.ts:132</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>partGroup: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>src: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>out: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>variables: <a href="../interfaces/soulgeneratingvariables.html" class="tsd-signature-type">SoulGeneratingVariables</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="generatesoul" class="tsd-anchor"></a>
-					<h3>generate<wbr>Soul</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Soul<span class="tsd-signature-symbol">(</span>src<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, out<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, variables<span class="tsd-signature-symbol">: </span><a href="../interfaces/soulgeneratingvariables.html" class="tsd-signature-type">SoulGeneratingVariables</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/generate.command.ts#L51">src/cli/commands/generate.command.ts:51</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>src: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>out: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>variables: <a href="../interfaces/soulgeneratingvariables.html" class="tsd-signature-type">SoulGeneratingVariables</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="run" class="tsd-anchor"></a>
 					<h3>run</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>customPath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/generateoptions.html" class="tsd-signature-type">GenerateOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/unistylus/cli/blob/76cb844/src/cli/commands/generate.command.ts#L23">src/cli/commands/generate.command.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/unistylus/cli/blob/b8244fe/src/cli/commands/generate.command.ts#L16">src/cli/commands/generate.command.ts:16</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> customPath: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;.&quot;</span></h5>
-								</li>
-								<li>
-									<h5>options: <a href="../interfaces/generateoptions.html" class="tsd-signature-type">GenerateOptions</a></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -256,12 +184,6 @@
 								<a href="generatecommand.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="generatecommand.html#createparts" class="tsd-kind-icon">create<wbr>Parts</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="generatecommand.html#generatesoul" class="tsd-kind-icon">generate<wbr>Soul</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="generatecommand.html#run" class="tsd-kind-icon">run</a>
 							</li>
 						</ul>
@@ -272,7 +194,13 @@
 						<a href="helperservice.html" class="tsd-kind-icon">Helper<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="jscommand.html" class="tsd-kind-icon">Js<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="lib.html" class="tsd-kind-icon">Lib</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="markdownservice.html" class="tsd-kind-icon">Markdown<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="messageservice.html" class="tsd-kind-icon">Message<wbr>Service</a>
@@ -300,9 +228,6 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/dotunistylusrcdotjson.html" class="tsd-kind-icon">Dot<wbr>UnistylusRCDot<wbr>Json</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/generateoptions.html" class="tsd-kind-icon">Generate<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/newcommandoptions.html" class="tsd-kind-icon">New<wbr>Command<wbr>Options</a>
@@ -342,6 +267,9 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#cliapp" class="tsd-kind-icon">cli<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#loadlanguages" class="tsd-kind-icon">load<wbr>Languages</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#sassrender" class="tsd-kind-icon">sass<wbr>Render</a>
