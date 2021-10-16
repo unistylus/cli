@@ -687,7 +687,7 @@ export class BuildService {
       cssBuffer.toString()
     );
     // js
-    let jsContent = '// No JS available!';
+    let jsContent = '// No JS';
     if (tsContent) {
       const transpileResult = ts.transpileModule(tsContent, {
         compilerOptions: {
