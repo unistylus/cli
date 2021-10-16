@@ -2,6 +2,7 @@ import {resolve} from 'path';
 import {promisify} from 'util';
 import {render} from 'sass';
 const sassRender = promisify(render);
+import * as ts from 'typescript';
 
 import {HelperService} from './helper.service';
 import {FileService} from './file.service';
@@ -29,6 +30,28 @@ export class BuildService {
     const processedResult = await this.processParts(out);
     // save parts
     await this.saveSourceParts(processedResult);
+    // full.scss
+    await this.fileService.createFile(
+      resolve(out, 'full.scss'),
+      processedResult
+        .filter(item => !(item instanceof Array))
+        .map(item => `@use './${(item as PartProcessedItem).exportPath}';`)
+        .join('\n')
+    );
+    // full.ts
+    await this.fileService.createFile(
+      resolve(out, 'full.ts'),
+      processedResult
+        .filter(item => !(item instanceof Array) && item.tsContent)
+        .map(
+          item =>
+            `import './${(item as PartProcessedItem).exportPath.replace(
+              '-all',
+              ''
+            )}';`
+        )
+        .join('\n')
+    );
     // copy resources
     if (copies) {
       await this.fileService.copies(copies, out, 'src');
@@ -169,6 +192,10 @@ export class BuildService {
             // II.2 - with variations
             else {
               const subResult = [] as PartProcessedItem[];
+              const sharedTsData = await this.getTsData(
+                `${partGroup}/${name}/${name}`,
+                contentOutPath
+              );
               // II.2.A - default.scss
               if (childNames.indexOf('default.scss') !== -1) {
                 const defaultContent = await this.fileService.readText(
@@ -178,10 +205,7 @@ export class BuildService {
                   exportPath: name,
                   scssPath: resolve(contentOutPath, `${name}.scss`),
                   scssContent: defaultContent.replace('[default]', `.${name}`),
-                  ...(await this.getTsData(
-                    `${partGroup}/${name}/${name}`,
-                    contentOutPath
-                  )),
+                  ...sharedTsData,
                 });
               }
               // II.2.B - other variants
@@ -226,6 +250,7 @@ export class BuildService {
                                   .replace('[variant]', `.${name}-${key}`)
                                   .replace(/(#{\$key})/g, '' + key)
                                   .replace(/(#{\$value})/g, '' + value),
+                                ...sharedTsData,
                               });
                             })()
                           )
@@ -285,6 +310,7 @@ export class BuildService {
                                       .replace(/(#{\$value1})/g, '' + value1)
                                       .replace(/(#{\$key2})/g, '' + key2)
                                       .replace(/(#{\$value2})/g, '' + value2),
+                                    ...sharedTsData,
                                   });
                                 }
                                 // 3 levels
@@ -320,6 +346,7 @@ export class BuildService {
                                         .replace(/(#{\$value2})/g, '' + value2)
                                         .replace(/(#{\$key3})/g, '' + key3)
                                         .replace(/(#{\$value3})/g, '' + value3),
+                                      ...sharedTsData,
                                     });
                                   }
                                 }
@@ -338,8 +365,9 @@ export class BuildService {
                   exportPath: `${partGroup}/${name}-all`,
                   scssPath: resolve(contentOutPath, `${name}-all.scss`),
                   scssContent: subResult
-                    .map(item => `@import './${item.exportPath}';`)
+                    .map(item => `@use './${item.exportPath}';`)
                     .join('\n'),
+                  ...sharedTsData,
                 },
                 subResult.map(item => {
                   item.exportPath = `${partGroup}/${item.exportPath}`;
@@ -364,7 +392,11 @@ export class BuildService {
             processedItem.scssPath,
             processedItem.scssContent
           );
-          if (processedItem.tsPath && processedItem.tsContent) {
+          if (
+            processedItem.tsPath &&
+            processedItem.tsContent &&
+            !(await this.fileService.exists(processedItem.tsPath)) // ignore if already exists (for variants)
+          ) {
             await this.fileService.createFile(
               processedItem.tsPath,
               processedItem.tsContent
@@ -404,6 +436,27 @@ export class BuildService {
         `;
       })
       .join('\n');
+    const {name: packageName, version: packageVersion} =
+      await this.projectService.readPackageDotJson();
+    const installContent = this.markdownService.render(
+      this.helperService.untabCodeBlock(`
+      Install the package:
+
+      \`\`\`bash
+      npm i ${packageName}
+      \`\`\`
+
+      Or, include CDN links:
+
+      \`\`\`html
+      <!-- CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/${packageName}-css@${packageVersion}/core.css">
+
+      <!-- JS -->
+      <script src="https://unpkg.com/${packageName}-js@${packageVersion}/core.js"></script>
+      \`\`\`
+      `)
+    );
     // html
     const main = this.helperService.untabCodeBlock(`
       <section class="section">
@@ -413,7 +466,13 @@ export class BuildService {
             ${ulItems}
           </ul>
         </div>
-      </section>      
+      </section>
+      <section class="section">
+        <div class="head">Install</div>
+        <div class="body">
+          ${installContent}
+        </div>
+      </section>
     `);
     await this.fileService.createFile(
       resolve(out, 'index.html'),
@@ -628,13 +687,17 @@ export class BuildService {
       cssBuffer.toString()
     );
     // js
+    let jsContent = '// No JS available!';
     if (tsContent) {
-      // TODO: render ts if there is ts content
+      const transpileResult = ts.transpileModule(tsContent, {
+        compilerOptions: {
+          module: ts.ModuleKind.None,
+          target: ts.ScriptTarget.ES5,
+        },
+      });
+      jsContent = transpileResult.outputText;
     }
-    await this.fileService.createFile(
-      resolve(outDir, 'index.js'),
-      '// No JS available!'
-    );
+    await this.fileService.createFile(resolve(outDir, 'index.js'), jsContent);
   }
 
   private async getPartGroups() {
@@ -680,27 +743,27 @@ export class BuildService {
     return this.markdownService.render(
       this.helperService.untabCodeBlock(
         `
-        Step 1: **Import the style**
+        - Step 1: **Import the style**
 
-        - Using the CLI:
+        Using the CLI:
 
         \`\`\`bash
         unistylus add "${exportPath}"
         \`\`\`
 
-        - Or, include SCSS:
+        Or, include SCSS:
 
         \`\`\`scss
         @use '${name}/${exportPath}';
         \`\`\`
 
-        - Or, include CSS:
+        Or, include CSS:
 
         \`\`\`html
         <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/${exportPath}.css">
         \`\`\`
 
-        Step 2: **Use the class**
+        - Step 2: **Use the class**
 
         \`\`\`html
         ${html || '<!-- See the list of classes above. -->'}
@@ -721,7 +784,6 @@ export class BuildService {
         tsPath: resolve(outPath, tsLocation.replace('.scss', '') + '.ts'),
         tsContent: await this.fileService.readText(tsSrcPath),
       };
-      console.log(tsData);
     }
     return tsData;
   }
