@@ -35,7 +35,6 @@ export class JsCommand {
     return Promise.all(
       jsFiles.map(async path => {
         try {
-          // bundle
           const bundle = await rollup({
             input: resolve(`${out}-js`, 'esm', path),
           });
@@ -43,24 +42,42 @@ export class JsCommand {
             format: 'iife',
             sourcemap: true,
           });
+          // bundle
           const codeChunks: string[] = [];
+          const mapChunks: string[] = [];
           for (const chunkOrAsset of output) {
             if (chunkOrAsset.type !== 'asset') {
               codeChunks.push(chunkOrAsset.code);
+              mapChunks.push(chunkOrAsset.map?.toString() || '');
             }
           }
-          // minify
-          const {code = '', map} = await minify(codeChunks.join('\n'), {
-            sourceMap: {
-              filename: path,
-              url: `${path}.map`,
-            },
-          });
-          // save files
+          const code = codeChunks.join('\n');
+          const map = mapChunks.join('\n');
           await this.fileService.createFile(resolve(`${out}-js`, path), code);
           await this.fileService.createFile(
             resolve(`${out}-js`, `${path}.map`),
-            !map ? '' : typeof map === 'string' ? map : JSON.stringify(map)
+            map
+          );
+          // minify
+          const minPath = path.replace(/\.js$/, '.min.js');
+          const minMapPath = `${minPath}.map`;
+          const {code: minCode = '', map: minMap} = await minify(code, {
+            sourceMap: {
+              filename: minPath,
+              url: minMapPath,
+            },
+          });
+          await this.fileService.createFile(
+            resolve(`${out}-js`, minPath),
+            minCode
+          );
+          await this.fileService.createFile(
+            resolve(`${out}-js`, minMapPath),
+            !minMap
+              ? ''
+              : typeof minMap === 'string'
+              ? minMap
+              : JSON.stringify(minMap)
           );
           // done
           await bundle.close();

@@ -35,7 +35,7 @@ export class BuildService {
       resolve(out, 'full.scss'),
       processedResult
         .filter(item => !(item instanceof Array))
-        .map(item => `@use './${(item as PartProcessedItem).exportPath}';`)
+        .map(item => `@import './${(item as PartProcessedItem).exportPath}';`)
         .join('\n')
     );
     // full.ts
@@ -365,7 +365,7 @@ export class BuildService {
                   exportPath: `${partGroup}/${name}-all`,
                   scssPath: resolve(contentOutPath, `${name}-all.scss`),
                   scssContent: subResult
-                    .map(item => `@use './${item.exportPath}';`)
+                    .map(item => `@import './${item.exportPath}';`)
                     .join('\n'),
                   ...sharedTsData,
                 },
@@ -754,7 +754,7 @@ export class BuildService {
         Or, include SCSS:
 
         \`\`\`scss
-        @use '${name}/${exportPath}';
+        @import '${name}/${exportPath}';
         \`\`\`
 
         Or, include CSS:
