@@ -11,13 +11,18 @@
 - [Getting started](#getting-started)
 - [Command overview](#cli-command-overview)
 - [Command reference](#cli-command-reference)
+  - [`add`](#command-add)
   - [`build`](#command-build)
   - [`clean`](#command-clean)
   - [`copy`](#command-copy)
   - [`generate`](#command-generate)
+  - [`install`](#command-install)
   - [`js`](#command-js)
   - [`new`](#command-new)
+  - [`remove`](#command-remove)
   - [`serve`](#command-serve)
+  - [`uninstall`](#command-uninstall)
+  - [`use`](#command-use)
   - [`help`](#command-help)
   - [`*`](#command-*)
 - [Detail API reference](https://unistylus-cli.lamnhan.com)
@@ -66,18 +71,39 @@ Next, see the homepage: [https://unistylus.lamnhan.com](https://unistylus.lamnha
 
 Tools for the Unistylus framework.
 
+- [`unistylus add|a <name>`](#command-add)
 - [`unistylus build|b --out [value] --api`](#command-build)
 - [`unistylus clean|del|d <path>`](#command-clean)
 - [`unistylus copy|c [items...] --src [value] --out [value] --clean`](#command-copy)
 - [`unistylus generate|g`](#command-generate)
+- [`unistylus install|i <name>`](#command-install)
 - [`unistylus js`](#command-js)
 - [`unistylus new|n <name> [description] --skip-install --skip-git`](#command-new)
+- [`unistylus remove|r <name>`](#command-remove)
 - [`unistylus serve|s --out [value]`](#command-serve)
+- [`unistylus uninstall|un <name>`](#command-uninstall)
+- [`unistylus use|u <name>`](#command-use)
 - [`unistylus help`](#command-help)
 - [`unistylus *`](#command-*)
 
 <h2><a name="cli-command-reference"><p>Command reference</p>
 </a></h2>
+
+<h3><a name="command-add"><p><code>add</code></p>
+</a></h3>
+
+Add a skin or a part.
+
+**Usage:**
+
+```sh
+unistylus add <name>
+unistylus a <name>
+```
+
+**Parameters:**
+
+- `<name>`: Name of the skin or part
 
 <h3><a name="command-build"><p><code>build</code></p>
 </a></h3>
@@ -147,6 +173,22 @@ unistylus generate
 unistylus g
 ```
 
+<h3><a name="command-install"><p><code>install</code></p>
+</a></h3>
+
+Install a collection.
+
+**Usage:**
+
+```sh
+unistylus install <name>
+unistylus i <name>
+```
+
+**Parameters:**
+
+- `<name>`: Name of the collection to be added
+
 <h3><a name="command-js"><p><code>js</code></p>
 </a></h3>
 
@@ -180,6 +222,22 @@ unistylus n <name> [description] --skip-install --skip-git
 - `-i, --skip-install`: Do not install dependency packages.
 - `-g, --skip-git`: Do not initialize a git repository.
 
+<h3><a name="command-remove"><p><code>remove</code></p>
+</a></h3>
+
+Remove a skin or a part.
+
+**Usage:**
+
+```sh
+unistylus remove <name>
+unistylus r <name>
+```
+
+**Parameters:**
+
+- `<name>`: Name of the skin or part
+
 <h3><a name="command-serve"><p><code>serve</code></p>
 </a></h3>
 
@@ -195,6 +253,38 @@ unistylus s --out [value]
 **Options:**
 
 - `-o, --out [value]`: Custom output folder.
+
+<h3><a name="command-uninstall"><p><code>uninstall</code></p>
+</a></h3>
+
+Install a collection.
+
+**Usage:**
+
+```sh
+unistylus uninstall <name>
+unistylus un <name>
+```
+
+**Parameters:**
+
+- `<name>`: Name of the collection to be removed
+
+<h3><a name="command-use"><p><code>use</code></p>
+</a></h3>
+
+Use a collection.
+
+**Usage:**
+
+```sh
+unistylus use <name>
+unistylus u <name>
+```
+
+**Parameters:**
+
+- `<name>`: Name of the collection to changed to
 
 <h3><a name="command-help"><p><code>help</code></p>
 </a></h3>
