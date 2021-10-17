@@ -12,8 +12,7 @@ export class UseCommand {
   ) {}
 
   async run(name: string) {
-    const consumerPath = resolve('src', 'unistylus.scss');
-    if (!(await this.fileService.exists(consumerPath))) {
+    if (!(await this.fileService.exists(resolve('src', 'unistylus.scss')))) {
       return console.log(ERROR + 'No src/unistylus.scss found.');
     }
     if (
@@ -27,11 +26,7 @@ export class UseCommand {
           yellow(`unistylus i ${name}`)
       );
     }
-    const info = {...(await this.consumerService.getInfo()), collection: name};
-    await this.fileService.createFile(
-      consumerPath,
-      this.consumerService.buildScss(info)
-    );
+    await this.consumerService.changeCollection(name);
     console.log('NOTE: Some parts may not exists in the new collection!');
     console.log(OK + 'Change Unistylus collection: ', blue(name));
   }

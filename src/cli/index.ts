@@ -11,6 +11,8 @@ import {JsCommand} from './commands/js.command';
 import {InstallCommand} from './commands/install.command';
 import {UninstallCommand} from './commands/uninstall.command';
 import {UseCommand} from './commands/use.command';
+import {AddCommand} from './commands/add.command';
+import {RemoveCommand} from './commands/remove.command';
 
 export class Cli {
   private unistylusModule: UnistylusModule;
@@ -24,6 +26,8 @@ export class Cli {
   installCommand: InstallCommand;
   uninstallCommand: UninstallCommand;
   useCommand: UseCommand;
+  addCommand: AddCommand;
+  removeCommand: RemoveCommand;
 
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
@@ -72,17 +76,39 @@ export class Cli {
 
   jsCommandDef: CommandDef = ['js', 'Build js package.'];
 
+  /**
+   * @param name - Name of the collection to be added
+   */
   installCommandDef: CommandDef = [
     ['install <name>', 'i'],
     'Install a collection.',
   ];
 
+  /**
+   * @param name - Name of the collection to be removed
+   */
   uninstallCommandDef: CommandDef = [
     ['uninstall <name>', 'un'],
     'Install a collection.',
   ];
 
+  /**
+   * @param name - Name of the collection to changed to
+   */
   useCommandDef: CommandDef = [['use <name>', 'u'], 'Use a collection.'];
+
+  /**
+   * @param name - Name of the skin or part
+   */
+  addCommandDef: CommandDef = [['add <name>', 'a'], 'Add a skin or a part.'];
+
+  /**
+   * @param name - Name of the skin or part
+   */
+  removeCommandDef: CommandDef = [
+    ['remove <name>', 'r'],
+    'Remove a skin or a part.',
+  ];
 
   constructor() {
     this.unistylusModule = new UnistylusModule();
@@ -112,6 +138,14 @@ export class Cli {
     this.installCommand = new InstallCommand();
     this.uninstallCommand = new UninstallCommand();
     this.useCommand = new UseCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.consumerService
+    );
+    this.addCommand = new AddCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.consumerService
+    );
+    this.removeCommand = new RemoveCommand(
       this.unistylusModule.fileService,
       this.unistylusModule.consumerService
     );
@@ -238,6 +272,26 @@ export class Cli {
         .aliases(aliases)
         .description(description)
         .action(name => this.useCommand.run(name));
+    })();
+
+    // add
+    (() => {
+      const [[command, ...aliases], description] = this.addCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .action(name => this.addCommand.run(name));
+    })();
+
+    // remove
+    (() => {
+      const [[command, ...aliases], description] = this.removeCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .action(name => this.removeCommand.run(name));
     })();
 
     // help

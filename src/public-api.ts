@@ -11,6 +11,8 @@ export * from './cli/commands/js.command';
 export * from './cli/commands/install.command';
 export * from './cli/commands/uninstall.command';
 export * from './cli/commands/use.command';
+export * from './cli/commands/add.command';
+export * from './cli/commands/remove.command';
 
 export * from './lib/services/helper.service';
 export * from './lib/services/message.service';

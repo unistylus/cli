@@ -9,6 +9,7 @@ interface ConsumerInfo {
 }
 
 export class ConsumerService {
+  private PATH = resolve('src', 'unistylus.scss');
   private cachedInfo?: ConsumerInfo;
 
   constructor(private fileService: FileService) {}
@@ -17,13 +18,60 @@ export class ConsumerService {
     if (this.cachedInfo) {
       return this.cachedInfo;
     }
-    const unistylusDotScss = await this.fileService.readText(
-      resolve('src', 'unistylus.scss')
-    );
+    const unistylusDotScss = await this.fileService.readText(this.PATH);
     return this.parseInfo(unistylusDotScss);
   }
 
-  buildScss({collection, skins, parts}: ConsumerInfo) {
+  async changeCollection(name: string) {
+    const info = {...(await this.getInfo()), collection: name};
+    return this.fileService.createFile(this.PATH, this.buildScss(info));
+  }
+
+  async addThing(name: string) {
+    const currentInfo = await this.getInfo();
+    const isSkin = name.includes('skins/');
+    let info: ConsumerInfo;
+    if (isSkin) {
+      const skins = [...currentInfo.skins];
+      const skinName = name.replace('skins/', '');
+      if (!skins.includes(skinName)) {
+        skins.push(skinName);
+      }
+      info = {...currentInfo, skins};
+    } else {
+      const parts = [...currentInfo.parts];
+      if (!parts.includes(name)) {
+        parts.push(name);
+      }
+      info = {...currentInfo, parts};
+    }
+    return this.fileService.createFile(this.PATH, this.buildScss(info));
+  }
+
+  async removeThing(name: string) {
+    const currentInfo = await this.getInfo();
+    const isSkin = name.includes('skins/');
+    let info: ConsumerInfo;
+    if (isSkin) {
+      const skins = [...currentInfo.skins];
+      const skinName = name.replace('skins/', '');
+      const i = skins.indexOf(skinName);
+      if (i !== -1) {
+        skins.splice(i, 1);
+      }
+      info = {...currentInfo, skins};
+    } else {
+      const parts = [...currentInfo.parts];
+      const i = parts.indexOf(name);
+      if (i !== -1) {
+        parts.splice(i, 1);
+      }
+      info = {...currentInfo, parts};
+    }
+    return this.fileService.createFile(this.PATH, this.buildScss(info));
+  }
+
+  private buildScss({collection, skins, parts}: ConsumerInfo) {
     const skinContent = skins
       .map(name => `@import '${collection}/skins/${name}';`)
       .join('\n');
