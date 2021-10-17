@@ -32,7 +32,7 @@
 - Install & init
 
 ```sh
-npx @unistylus/cli init
+npx @unistylus/cli new
 ```
 
 - Install globally:
@@ -41,10 +41,10 @@ npx @unistylus/cli init
 npm install -g @unistylus/cli
 ```
 
-Add to a project:
+Create a project:
 
 ```sh
-unistylus init
+unistylus new
 ```
 
 Add your own collection `src/`, edit the `.unistylusrc.json`.

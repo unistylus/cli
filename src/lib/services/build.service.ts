@@ -441,23 +441,39 @@ export class BuildService {
       await this.projectService.readPackageDotJson();
     const installContent = this.markdownService.render(
       this.helperService.untabCodeBlock(`
-      Install the package:
+      Install the package using [the CLI](https://unistylus-cli.lamnhan.com) (same as \`npm i ${packageName}\`):
 
       \`\`\`bash
-      npm i ${packageName}
+      unistylus i ${packageName}
       \`\`\`
 
       Or, include CDN links:
 
       \`\`\`html
       <!-- CSS -->
-      <link rel="stylesheet" href="https://unpkg.com/${packageName}-css@${packageVersion}/core.css">
+      <link rel="stylesheet" href="https://unpkg.com/${packageName}-css@${packageVersion}/core.min.css">
 
-      <!-- JS -->
-      <script src="https://unpkg.com/${packageName}-js@${packageVersion}/core.js"></script>
+      <!-- JS (if available) -->
+      <script src="https://unpkg.com/${packageName}-js@${packageVersion}/core.min.js"></script>
       \`\`\`
       `)
     );
+    const {web} = await this.projectService.readDotUnistylusRCDotJson();
+    const noteSection = !web?.notePath
+      ? ''
+      : await (async () => {
+          const noteContent = this.markdownService.render(
+            await this.fileService.readText(web.notePath as string)
+          );
+          return this.helperService.untabCodeBlock(`
+          <section class="section">
+            <div class="head">Note</div>
+            <div class="body">
+              ${noteContent}
+            </div>
+          </section>
+          `);
+        })();
     // html
     const main = this.helperService.untabCodeBlock(`
       <section class="section">
@@ -474,6 +490,7 @@ export class BuildService {
           ${installContent}
         </div>
       </section>
+      ${noteSection}
     `);
     await this.fileService.createFile(
       resolve(out, 'index.html'),
@@ -481,7 +498,7 @@ export class BuildService {
     );
     // css
     await this.fileService.createFile(
-      resolve(out, 'index.css'),
+      resolve(out, 'index.min.css'),
       this.helperService.untabCodeBlock(`
       ul {
         list-style: none;
@@ -761,7 +778,13 @@ export class BuildService {
         Or, include CSS:
 
         \`\`\`html
-        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/${exportPath}.css">
+        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/${exportPath}.min.css">
+        \`\`\`
+
+        And, include JS (if available):
+
+        \`\`\`html
+        <script src="https://unpkg.com/${name}-js@${version}/${exportPath}.min.js"></script>
         \`\`\`
 
         - Step 2: **Use the class**

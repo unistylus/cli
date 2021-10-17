@@ -11,6 +11,7 @@ export interface DotUnistylusRCDotJson {
     copies?: string[];
     styles?: string[];
     scripts?: string[];
+    notePath?: string;
   };
 }
 
