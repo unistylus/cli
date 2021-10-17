@@ -7,7 +7,11 @@ export interface DotUnistylusRCDotJson {
   copies?: string[];
   excludes?: string[];
   variables?: SoulGeneratingVariables;
-  webCopies?: string[];
+  web?: {
+    copies?: string[];
+    styles?: string[];
+    scripts?: string[];
+  };
 }
 
 export interface PackageDotJson {

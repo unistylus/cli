@@ -59,7 +59,8 @@ export class BuildService {
   }
 
   async buildWeb(out: string, withAPI = false) {
-    const {webCopies} = await this.projectService.readDotUnistylusRCDotJson();
+    const {web: {copies: webCopies} = {}} =
+      await this.projectService.readDotUnistylusRCDotJson();
     const processedResult = await this.processParts(out);
     // save parts
     await this.saveWebParts(processedResult);
