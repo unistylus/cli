@@ -8,6 +8,8 @@ export * from './cli/commands/copy.command';
 export * from './cli/commands/serve.command';
 export * from './cli/commands/build.command';
 export * from './cli/commands/js.command';
+export * from './cli/commands/install.command';
+export * from './cli/commands/uninstall.command';
 export * from './cli/commands/use.command';
 
 export * from './lib/services/helper.service';

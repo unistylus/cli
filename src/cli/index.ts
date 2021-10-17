@@ -8,6 +8,8 @@ import {CopyCommand} from './commands/copy.command';
 import {ServeCommand} from './commands/serve.command';
 import {BuildCommand} from './commands/build.command';
 import {JsCommand} from './commands/js.command';
+import {InstallCommand} from './commands/install.command';
+import {UninstallCommand} from './commands/uninstall.command';
 import {UseCommand} from './commands/use.command';
 
 export class Cli {
@@ -19,6 +21,8 @@ export class Cli {
   serveCommand: ServeCommand;
   buildCommand: BuildCommand;
   jsCommand: JsCommand;
+  installCommand: InstallCommand;
+  uninstallCommand: UninstallCommand;
   useCommand: UseCommand;
 
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
@@ -68,10 +72,17 @@ export class Cli {
 
   jsCommandDef: CommandDef = ['js', 'Build js package.'];
 
-  useCommandDef: CommandDef = [
-    ['use [name]', 'u'],
-    'Use a Unistylus collection.',
+  installCommandDef: CommandDef = [
+    ['install <name>', 'i'],
+    'Install a collection.',
   ];
+
+  uninstallCommandDef: CommandDef = [
+    ['uninstall <name>', 'un'],
+    'Install a collection.',
+  ];
+
+  useCommandDef: CommandDef = [['use <name>', 'u'], 'Use a collection.'];
 
   constructor() {
     this.unistylusModule = new UnistylusModule();
@@ -98,6 +109,8 @@ export class Cli {
       this.unistylusModule.fileService,
       this.unistylusModule.projectService
     );
+    this.installCommand = new InstallCommand();
+    this.uninstallCommand = new UninstallCommand();
     this.useCommand = new UseCommand(
       this.unistylusModule.fileService,
       this.unistylusModule.consumerService
@@ -195,6 +208,26 @@ export class Cli {
         .command(command as string)
         .description(description)
         .action(() => this.jsCommand.run());
+    })();
+
+    // install
+    (() => {
+      const [[command, ...aliases], description] = this.installCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .action(name => this.installCommand.run(name));
+    })();
+
+    // uninstall
+    (() => {
+      const [[command, ...aliases], description] = this.uninstallCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .action(name => this.uninstallCommand.run(name));
     })();
 
     // use
