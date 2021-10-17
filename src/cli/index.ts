@@ -8,6 +8,7 @@ import {CopyCommand} from './commands/copy.command';
 import {ServeCommand} from './commands/serve.command';
 import {BuildCommand} from './commands/build.command';
 import {JsCommand} from './commands/js.command';
+import {UseCommand} from './commands/use.command';
 
 export class Cli {
   private unistylusModule: UnistylusModule;
@@ -18,6 +19,7 @@ export class Cli {
   serveCommand: ServeCommand;
   buildCommand: BuildCommand;
   jsCommand: JsCommand;
+  useCommand: UseCommand;
 
   commander = ['unistylus', 'Tools for the Unistylus framework.'];
 
@@ -66,6 +68,11 @@ export class Cli {
 
   jsCommandDef: CommandDef = ['js', 'Build js package.'];
 
+  useCommandDef: CommandDef = [
+    ['use [name]', 'u'],
+    'Use a Unistylus collection.',
+  ];
+
   constructor() {
     this.unistylusModule = new UnistylusModule();
     this.newCommand = new NewCommand(
@@ -90,6 +97,10 @@ export class Cli {
     this.jsCommand = new JsCommand(
       this.unistylusModule.fileService,
       this.unistylusModule.projectService
+    );
+    this.useCommand = new UseCommand(
+      this.unistylusModule.fileService,
+      this.unistylusModule.consumerService
     );
   }
 
@@ -184,6 +195,16 @@ export class Cli {
         .command(command as string)
         .description(description)
         .action(() => this.jsCommand.run());
+    })();
+
+    // use
+    (() => {
+      const [[command, ...aliases], description] = this.useCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .action(name => this.useCommand.run(name));
     })();
 
     // help

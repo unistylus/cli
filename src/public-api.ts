@@ -8,6 +8,7 @@ export * from './cli/commands/copy.command';
 export * from './cli/commands/serve.command';
 export * from './cli/commands/build.command';
 export * from './cli/commands/js.command';
+export * from './cli/commands/use.command';
 
 export * from './lib/services/helper.service';
 export * from './lib/services/message.service';
@@ -17,3 +18,4 @@ export * from './lib/services/markdown.service';
 export * from './lib/services/project.service';
 export * from './lib/services/build.service';
 export * from './lib/services/web.service';
+export * from './lib/services/consumer.service';

@@ -6,6 +6,7 @@ import {MarkdownService} from './services/markdown.service';
 import {ProjectService} from './services/project.service';
 import {BuildService} from './services/build.service';
 import {WebService} from './services/web.service';
+import {ConsumerService} from './services/consumer.service';
 
 export class Lib {
   helperService: HelperService;
@@ -16,6 +17,7 @@ export class Lib {
   projectService: ProjectService;
   buildService: BuildService;
   webService: WebService;
+  consumerService: ConsumerService;
 
   constructor() {
     this.helperService = new HelperService();
@@ -37,5 +39,6 @@ export class Lib {
       this.projectService,
       this.webService
     );
+    this.consumerService = new ConsumerService(this.fileService);
   }
 }
