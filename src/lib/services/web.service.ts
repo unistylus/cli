@@ -21,9 +21,16 @@ export class WebService {
     const {titleSuffix} = options || {};
     const {name, version, description} =
       await this.projectService.readPackageDotJson();
+    const {web} = await this.projectService.readDotUnistylusRCDotJson();
     const title = !titleSuffix ? name : `${name}/${titleSuffix}`;
     const cliVersion = require('../../../package.json').version;
     const skinStylesheets = await this.getSkinStylesheets(name, version);
+    const customStylesheets = (web?.styles || [])
+      .map(url => `<link rel="stylesheet" href="${url}">`)
+      .join('\n');
+    const customScripts = (web?.scripts || [])
+      .map(url => `<script url="${url}"></script>`)
+      .join('\n');
     const headerHtml = await this.getHeaderHtml();
     const footerHtml = await this.getFooterHtml();
     return this.helperService.untabCodeBlock(`
@@ -45,6 +52,8 @@ export class WebService {
         <link rel="stylesheet" href="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/styles/index.css">
         <!-- Main style -->
         <link rel="stylesheet" href="index.css">
+        <!-- Custom style -->
+        ${customStylesheets}
       </head>
       <body>
 
@@ -60,6 +69,8 @@ export class WebService {
         <script src="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/scripts/index.js"></script>
         <!-- Main script -->
         <script src="index.js"></script>
+        <!-- Custom script -->
+        ${customScripts}
       </body>
       </html>
     `);
