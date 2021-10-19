@@ -31,18 +31,6 @@ export class WebService {
     const customScripts = (web?.scripts || [])
       .map(url => `<script url="${url}"></script>`)
       .join('\n');
-    const resetStylesheet =
-      exportPath === 'reset'
-        ? ''
-        : '<link rel="stylesheet" href="/reset/index.css">';
-    const coreStylesheet =
-      exportPath === 'core'
-        ? ''
-        : '<link rel="stylesheet" href="/core/index.css">';
-    const resetScript =
-      exportPath === 'reset' ? '' : '<script src="/reset/index.js"></script>';
-    const coreScript =
-      exportPath === 'core' ? '' : '<script src="/core/index.js"></script>';
     const headerHtml = await this.getHeaderHtml();
     const footerHtml = await this.getFooterHtml();
     return this.helperService.untabCodeBlock(`
@@ -58,8 +46,9 @@ export class WebService {
         <!-- All skins -->
         ${skinStylesheets}
         <!-- Basic styles -->
-        ${resetStylesheet}
-        ${coreStylesheet}
+        <link rel="stylesheet" href="/reset/index.css">
+        <link rel="stylesheet" href="/core/index.css">
+        <link rel="stylesheet" href="/content/typography/index.css">
         <!-- Global style -->
         <link rel="stylesheet" href="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/styles/index.css">
         <!-- Main style -->
@@ -78,8 +67,7 @@ export class WebService {
         ${footerHtml}
 
         <!-- Basic scripts -->
-        ${resetScript}
-        ${coreScript}
+        ${exportPath === 'core' ? '' : '<script src="/core/index.js"></script>'}
         <!-- Global script -->
         <script src="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/scripts/index.js"></script>
         <!-- Main script -->
