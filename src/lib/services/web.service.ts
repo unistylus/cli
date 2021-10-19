@@ -19,18 +19,30 @@ export class WebService {
 
   async buildHTMLContent(main: string, options?: BuildHTMLOptions) {
     const {titleSuffix} = options || {};
-    const {name, version, description} =
-      await this.projectService.readPackageDotJson();
+    const exportPath = titleSuffix;
+    const {name, description} = await this.projectService.readPackageDotJson();
     const {web} = await this.projectService.readDotUnistylusRCDotJson();
     const title = !titleSuffix ? name : `${name}/${titleSuffix}`;
     const cliVersion = require('../../../package.json').version;
-    const skinStylesheets = await this.getSkinStylesheets(name, version);
+    const skinStylesheets = await this.getSkinStylesheets();
     const customStylesheets = (web?.styles || [])
       .map(url => `<link rel="stylesheet" href="${url}">`)
       .join('\n');
     const customScripts = (web?.scripts || [])
       .map(url => `<script url="${url}"></script>`)
       .join('\n');
+    const resetStylesheet =
+      exportPath === 'reset'
+        ? ''
+        : '<link rel="stylesheet" href="/reset/index.css">';
+    const coreStylesheet =
+      exportPath === 'core'
+        ? ''
+        : '<link rel="stylesheet" href="/core/index.css">';
+    const resetScript =
+      exportPath === 'reset' ? '' : '<script src="/reset/index.js"></script>';
+    const coreScript =
+      exportPath === 'core' ? '' : '<script src="/core/index.js"></script>';
     const headerHtml = await this.getHeaderHtml();
     const footerHtml = await this.getFooterHtml();
     return this.helperService.untabCodeBlock(`
@@ -45,14 +57,14 @@ export class WebService {
         <meta name="description" content="${description}">
         <!-- All skins -->
         ${skinStylesheets}
-        <!-- Basic style -->
-        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/reset.css">
-        <link rel="stylesheet" href="https://unpkg.com/${name}-css@${version}/core.css">
+        <!-- Basic styles -->
+        ${resetStylesheet}
+        ${coreStylesheet}
         <!-- Global style -->
         <link rel="stylesheet" href="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/styles/index.css">
         <!-- Main style -->
         <link rel="stylesheet" href="index.css">
-        <!-- Custom style -->
+        <!-- Custom styles -->
         ${customStylesheets}
       </head>
       <body>
@@ -65,11 +77,14 @@ export class WebService {
         
         ${footerHtml}
 
+        <!-- Basic scripts -->
+        ${resetScript}
+        ${coreScript}
         <!-- Global script -->
         <script src="https://unpkg.com/@unistylus/cli@${cliVersion}/assets/scripts/index.js"></script>
         <!-- Main script -->
         <script src="index.js"></script>
-        <!-- Custom script -->
+        <!-- Custom scripts -->
         ${customScripts}
       </body>
       </html>
@@ -134,15 +149,9 @@ export class WebService {
     return this.cachedSkins;
   }
 
-  private async getSkinStylesheets(
-    packageName: string,
-    packageVersion: string
-  ) {
+  private async getSkinStylesheets() {
     return (await this.getSkins())
-      .map(
-        name =>
-          `<link rel="stylesheet" href="https://unpkg.com/${packageName}-css@${packageVersion}/skins/${name}.css">`
-      )
+      .map(name => `<link rel="stylesheet" href="/skins/${name}.css">`)
       .join('\n');
   }
 }

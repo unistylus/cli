@@ -1,4 +1,5 @@
 import {resolve} from 'path';
+import {execSync} from 'child_process';
 import {promisify} from 'util';
 import {render} from 'sass';
 const sassRender = promisify(render);
@@ -68,6 +69,8 @@ export class BuildService {
     await this.saveWebIndex(processedResult, out);
     // save group indexes
     await this.saveWebGroupIndexes(processedResult, out);
+    // compile skins
+    execSync(`npx sass src/skins:${out}/skins`, {stdio: 'ignore'});
     // save api
     if (withAPI) {
       const apiList = processedResult.map(item => {
@@ -498,7 +501,7 @@ export class BuildService {
     );
     // css
     await this.fileService.createFile(
-      resolve(out, 'index.min.css'),
+      resolve(out, 'index.css'),
       this.helperService.untabCodeBlock(`
       ul {
         list-style: none;
